@@ -8,7 +8,7 @@ import GlobalStyle from '../Styles/globalStyles';
 // import Header from '../Header/presenter'
 // import AddPost from '../general_components/addPost';
 // import Trending from '../Trending/presenter';
-import Feed from '../Feed/presenter'
+import Sidebar from '../SideBar/presenter'
 import Post from '../Post/presenter';
 import Comment from '../Comment/presenter'
 import UserProfileForm from '../UserProfile/presenter'
@@ -21,6 +21,7 @@ class App extends React.Component {
                 <Fragment>
                     <GlobalStyle/>
                     <UserProfileForm/>
+                    <Sidebar/>
                 </Fragment>
             </Provider>
         );

@@ -21,20 +21,21 @@ export default () => {
         // }),
         asyncLikePost: postId => restApi.request({
             method: 'POST',
-            url: `images/${postId}/likes`,
+            url: `posts/${postId}/reactions`,
             data: postId
         }),
         asyncUnlikePost: postId => restApi.request({
             method: 'DELETE',
-            url: `/images/${postId}/unlikes/`,
+            url: `/posts/${postId}/unreactions/`,
             data: postId
         }),
-        asyncCommentPost: (postId, message) => ({
+        asyncCommentPost: (postId, content) => ({
             method: 'POST',
-            url: `/images/${postId}/comments/`,
-            data: message
+            url: `/posts/${postId}/comments/`,
+            data: content
         })
-        // I need implement a endpoint of API that will be responsible
+        // I need implement an endpoint of API that will be responsible
         // by social login and authentication (on both system <backend> and <frontend>)
     };
 };
+

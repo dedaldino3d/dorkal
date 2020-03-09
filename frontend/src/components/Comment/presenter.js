@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Container, { CommentContent } from './styles'
-import Avatar from '../general_components/avatar'
+import Avatar from '../Avatar/avatar'
 import { FaRegComment, FaRegHeart } from 'react-icons/fa'
 import { MdMessage } from 'react-icons/md'
 
@@ -12,19 +12,23 @@ export const Comment = props => {
         <Container>
             <div>
                 <Avatar
-                source={props.comment.user.profile.profile_image || require('images/noPhoto.jpg')}
+                // source={props.comment.user.profile.profile_image || require('../../images/noPhoto.jpg')}
+                source={require('../../images/noPhoto.jpg')}
                 width={38}
                 height={38}
-                alt={`${props.comment.user.username}_profile_image`}
+                // alt={`${props.comment.user.username}_profile_image`}
+                alt="3D"
                 />
             </div>
             <CommentContent>
                 <div>
-                    <a href="#">{props.comment.user.username}</a>
-                    <p>{props.comment.created_at}</p>
+                    <a href="#">Dedaldino</a>
+                    <p>08/03/2020</p>
                 </div>
                 <div>
-                    <p>{props.comment.caption}</p>
+                    <p> Queremos que eles sejam distribuídos uniformemente no eixo horizontal, para que, 
+                        quando redimensionamos o navegador, tudo seja dimensionado corretamente e sem consultas à mídia.
+                    </p>
                 </div>
                 <div>
                     <span><FaRegComment/></span>

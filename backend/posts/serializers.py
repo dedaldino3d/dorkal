@@ -8,26 +8,27 @@ from backend.users.models import UserProfile
 
 user_models = settings.AUTH_USER_MODEL
 
-class SmallImageSerializer(serializers.ModelSerializer):
+class SmallPostSerializer(serializers.ModelSerializer):
 
     """ Used for the notifications """
 
     class Meta:
-        model = models.Image
+        model = models.Post
         fields = (
             'file',
         )
 
 
-class CountImageSerializer(serializers.ModelSerializer):
+class CountPostSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Image
+        model = models.Post
         fields = (
             'id',
             'file',
             'comment_count',
-            'like_count'
+            'reaction_count',
+            'share_count',
         )
 
 
@@ -46,72 +47,80 @@ class CommentSerializer(serializers.ModelSerializer):
         model = models.Comment
         fields = (
             'id',
-            'message',
+            'content',
             'user'
         )
 
 
-class LikeSerializer(serializers.ModelSerializer):
+class ReactionSerializer(serializers.ModelSerializer):
 
     class Meta:
-        model = models.Like
+        model = models.Reaction
         fields = '__all__'
 
 
-class ImageSerializer(TaggitSerializer, serializers.ModelSerializer):
+class ShareSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Share
+        fields = '__all__'
+
+
+class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     comments = CommentSerializer(many=True)
     user = FeedUserSerializer()
     tags = TagListSerializerField()
-    is_liked = serializers.SerializerMethodField()
+    is_reacted = serializers.SerializerMethodField()
 
     class Meta:
-        model = models.Image
+        model = models.Post
         fields = (
             'id',
             'file',
             'location',
-            'caption',
+            'content',
             'comments',
-            'like_count',
+            'react_count',
+            'share_count',
             'user',
             'tags',
             'natural_time',
-            'is_liked',
+            'is_reacted',
             'is_vertical'
         )
 
-    def get_is_liked(self, obj):
+    def get_is_reacted(self, obj):
         if 'request' in self.context:
             request = self.context['request']
             try:
-                models.Like.objects.get(
-                    user__id=request.user.id, image__id=obj.id)
+                models.Reaction.objects.get(
+                    user__id=request.user.id, post__id=obj.id)
                 return True
-            except models.Like.DoesNotExist:
+            except models.Reaction.DoesNotExist:
                 return False
         return False
 
 
-class LikeSerializer(serializers.ModelSerializer):
+# class ReactionSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = models.Like
-        fields = (
-            'user',
-        )
+#     class Meta:
+#         model = models.Reaction
+#         fields = (
+#             'user',
+#         )
 
 
-class InputImageSerializer(serializers.ModelSerializer):
+class InputPostSerializer(serializers.ModelSerializer):
 
     tags = TagListSerializerField()
 
     class Meta:
-        model = models.Image
+        model = models.Post
         fields = (
             'file',
             'location',
-            'caption',
+            'content',
             'tags'
         )
 
@@ -122,7 +131,7 @@ class InputImageSerializer(serializers.ModelSerializer):
     #         request = self.context['request']
     #         try:
     #             models.Like.objects.get(
-    #                 user__id=request.user.id, image__id=obj.id)
+    #                 user__id=request.user.id, post__id=obj.id)
     #             return True
     #         except models.Like.DoesNotExist:
     #             return False
@@ -180,7 +189,7 @@ class InputImageSerializer(serializers.ModelSerializer):
 #     likes = serializers.SerializerMethodField()
 #     is_liked = serializers.SerializerMethodField()
 #     timesince_posted = serializers.SerializerMethodField()
-#     image = ImageSerializer()
+#     post= PostSerializer()
 #
 #     class Meta:
 #         model = Post

@@ -1,20 +1,16 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-    border: 1px solid #ededed;
+    border: 1px solid #989898;
     border-radius: 8px;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     padding: 5px;
-    margin: .125em .3125em;
+    margin: .165em .3525em;
     max-width: 100%;
     flex: 1 1 6em;
-
-    @media (min-width: 36em){
-        max-width: 36em;
-        margin: .1875em auto;
-    }
+    box-shadow: 0 0 10px 0 rgba(75, 79, 92, 0.7), inset 1px 1px 8px 0 rgb(75, 79, 92, 0.7);
 `;
 
 export const HeaderPost = styled.div`
@@ -23,9 +19,8 @@ export const HeaderPost = styled.div`
     flex-flow: row wrap;
     justify-content: space-between;
     padding: .5em;
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 0.002em solid #989898;
     width: 100%;
-    background-color: #fafafa;
     max-height: 6em;
     overflow: hidden;
     
@@ -44,29 +39,35 @@ export const HeaderPost = styled.div`
             }
             span {
                 font-size: .75em;
-                color: #888;
+                color: #fafafa;
             }
-        }
-    }
-
-    button {
-        background-color: transparent;
-        border: none;
-        border-radius: 40px !important;
-        padding: 10px 13px 8px;
-        font-size: 1.5em;
-        
-        &:hover {
-            background-color: #f8f8f8;
         }
     }
 `;
 
+export const BFollow = styled.button`
+    border: 1px solid #6f1287;
+    color: #6f1287;
+    padding: 5px 15px;
+    background-color: transparent;
+    box-shadow: 0 0 10px 0 rgb(111, 18, 135, .3);
+    border-radius: 10px;
+    transition: background-color .3s ease-in-out;
+    height: 30px;
+    align-self: center;
+    :hover {
+        background-color: #6f1287;
+        color: #fff;
+        font-weight: bold;
+    }
+`
+
 export const ContentPost = styled.div`
     display: block;
     padding: 5px;
+    word-wrap: break-word;
+    word-break: break-all;
     & > p {
-        color: #0f0f0f;
         padding-bottom: 1em;
     }
 `;
@@ -75,7 +76,7 @@ export const Tags = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    color: #777;
+    color: #ededed;
     padding: 3px 2px 6px;
     font-size: .75em;
     p {
@@ -85,43 +86,39 @@ export const Tags = styled.div`
 `;
 
 export const FooterPost = styled.div`
-    border-top: 1px solid #f2f2f2;
+    border-top: 0.002em solid #989898;
     display: flex;
-    flex-flow: row wrap;
+    flex-flow: row nowrap;
     justify-content: space-between;
+`
 
-    & > div {
-        display: flex;
-        flex-flow: row nowrap;
-        justify-content: center;
-        align-items: center;
-        color: #666;
-        margin-bottom: -5px;
-        & button {
-            margin-left: 4px;
-            margin-top: 4px;
-            border: none;
-            border-radius: 40px !important;
-            padding: 6px 10px;
-            padding-bottom: 2px;
-            background-color: inherit;
-            span:first-child {
-                font-size: .7em;
-                font-weight: bold;
-            }
-            span:last-child {
-                font-size: 1.5em;
-                /* color: #4d94ff; */
-            }
-            :hover {
-                background-color: #ddd;
-            }
-            :first-child {
-                margin-left: 0;
-            }
+export const Button = styled.button`
+    margin-left: 4px;
+    margin-top: 4px;
+    border: none;
+    border-radius: 40px !important;
+    padding: 1px 3px;
+    padding-bottom: 2px;
+    background-color: transparent;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    flex: 1 1 auto;
+    line-height: 1.4;
+    transition: background-color .3s ease-in-out;
+    color: #67707e;
+
+    & svg {
+        margin-left: 3px;
+    }
+
+    :hover {
+        background-color: #311c4a;
+        & svg {
+            transform: scaleY(2);
+            transition: transform .6s ease-in-out;
         }
     }
 `
-
 
 export default Container

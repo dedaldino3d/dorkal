@@ -29,6 +29,6 @@ urlpatterns = [
     # you don't sure that you need this at all <Change>
     path('accounts/', include(('allauth.urls', 'allauth'), namespace='accounts')),
     path('users/', include(('backend.users.urls', 'users'), namespace='users')),
-    path('images/', include(('backend.images.urls', 'images'), namespace='images')),
+    path('posts/', include(('backend.posts.urls', 'posts'), namespace='posts')),
     path('notifications/', include(('backend.notifications.urls', 'notifications'), namespace='notifications')),
 ]

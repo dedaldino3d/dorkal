@@ -89,7 +89,7 @@ THIRTY_APPS = [
 ASTA_APPS = [
     'backend.users.apps.UsersConfig',
     'backend.core.apps.CoreConfig',
-    'backend.images.apps.ImagesConfig',
+    'backend.posts.apps.PostsConfig',
     'backend.message.apps.MessageConfig',
     'backend.notifications.apps.NotificationsConfig',
 ]

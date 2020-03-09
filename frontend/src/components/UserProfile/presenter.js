@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Container, { InfoHeader, InfoSeg } from './styles'
+import Container, { InfoHeader, InfoSeg, AddUser} from './styles'
 
 import Header from '../Header/presenter';
-import Avatar from '../general_components/avatar'
+import Avatar from '../Avatar/avatar'
 import Trending from '../Trending/presenter'
 import Post from '../Post/presenter'
 import AddPost from '../general_components/addPost'
@@ -17,34 +17,32 @@ const UserProfileForm = props => {
         <Container>
             <Header/>
             <InfoHeader>
-
                 <div>
                     <Avatar
-                    width={55}
-                    height={55}
-                    source="#"
+                    width={65}
+                    height={65}
+                    source={require('../../images/noPhoto.jpg')}
                     />
                     <div>
                         <div>
-                            <p>Name</p>
-                            <p>@username</p>
+                            <p>Dedaldino A.</p>
+                            <p>@dedaldino3D</p>
                         </div>
                         <InfoSeg>
-                            <p><FaUsers/><span>Followers</span></p>
-                            <p><MdGroup/><span>Following</span></p>
-                            <p><FaUserFriends/><span>Friends</span></p>
-                            <p><FaRegEye/><span>Views</span></p>
+                            <p>154M<span><FaUsers/>Followers</span></p>
+                            <p>12<span><MdGroup/>Following</span></p>
+                            <p>1<span><FaUserFriends/>Friends</span></p>
+                            <p>2B<span><FaRegEye/>Views</span></p>
                         </InfoSeg>
                     </div>
                 </div>
-                <button>
-                    <MdPersonAdd/>
-                </button>
+                <AddUser>
+                    <a><MdPersonAdd/></a>
+                </AddUser>
             </InfoHeader>
             <Trending/>
             <AddPost
             placeholder="Make difference..."/>
-            <Post/>
             <Post/>
             <Post/>
             <Post/>

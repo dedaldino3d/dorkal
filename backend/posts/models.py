@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 from taggit.managers import TaggableManager
 from django.contrib.humanize.templatetags.humanize import naturaltime
 from imagekit.models import ProcessedImageField
@@ -15,22 +16,26 @@ class TimeStampedModel(models.Model):
         abstract = True
 
 
-class Image(TimeStampedModel):
-    """ Image Model """
+class Post(TimeStampedModel):
+    """ Post Model """
     file = ProcessedImageField(processors=[
         Transpose()
     ],
         format='JPEG',
         options={'quality': 50})
     location = models.CharField(max_length=140)
-    caption = models.TextField()
+    content = models.TextField()
     user = models.ForeignKey(
-        user_models, null=True, related_name='images', on_delete=models.CASCADE)
+        user_models, null=True, related_name='posts', on_delete=models.CASCADE)
     tags = TaggableManager()
 
     @property
-    def like_count(self):
-        return self.likes.all().count()
+    def reaction_count(self):
+        return self.reactions.all().count()
+
+    @property
+    def share_count(self):
+        return self.shares.all().count()
 
     @property
     def comment_count(self):
@@ -48,7 +53,7 @@ class Image(TimeStampedModel):
             return False
 
     def __str__(self):
-        return '{} - {}'.format(self.location, self.caption)
+        return '{} - {}'.format(self.location, self.content)
 
     class Meta:
         ordering = ['-created_at']
@@ -57,22 +62,41 @@ class Image(TimeStampedModel):
 class Comment(TimeStampedModel):
     """ Comment Model """
 
-    caption = models.TextField()
+    content = models.TextField()
     user = models.ForeignKey(user_models, null=True, on_delete=models.CASCADE)
-    image = models.ForeignKey(Image, null=True, related_name='comments', on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, null=True, related_name='comments', on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.message
+        return self.content
 
 
-class Like(TimeStampedModel):
-    """ Like Model """
+class Reaction(TimeStampedModel):
+    """ React Model """
+    LIKE, HEART, JOKE = 'like', 'heart', 'joke'
+
+    REACTION = (
+        (LIKE, _('like')),
+        (HEART, _('heart')),
+        (JOKE, _('joke')),
+    )
 
     user = models.ForeignKey(user_models, null=True, on_delete=models.CASCADE)
-    image = models.ForeignKey(Image, null=True, related_name='likes', on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, null=True, related_name='reactions', on_delete=models.CASCADE)
+    react = models.CharField(verbose_name=_("React"), default=HEART, blank=True, choices=REACTION, max_length=6)
 
     def __str__(self):
-        return 'User: {} - Image Caption: {}'.format(self.user.username, self.image.caption)
+        return 'User: {} - Post Content: {}'.format(self.user.username, self.post.content)
+
+
+class Share(TimeStampedModel):
+    """ Share Model """
+
+    user = models.ForeignKey(user_models, null=True, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, null=True, related_name='shares', on_delete=models.CASCADE)
+
+    def __str__(self):
+        return 'User: {} - Post Content: {}'.format(self.user.username, self.post.content)
+
 
 ########################################################################
 # Model post
@@ -88,11 +112,11 @@ class Like(TimeStampedModel):
 #     )
 #
 #     post_id = models.AutoField(primary_key=True)
-#     caption = models.TextField(blank=False)
+#     content = models.TextField(blank=False)
 #     is_active = models.BooleanField(default=True)
 #     # location = models.ForeignKey(Locations, on_delete=models.DO_NOTHING, null=True,
 #     blank=True, related_name='location')
-#     image = models.ForeignKey(Image, models.CASCADE, related_name='post', null=True, blank=True)
+#     post = models.ForeignKey(Post, models.CASCADE, related_name='post', null=True, blank=True)
 #     location = models.CharField(max_length=100, blank=True, verbose_name=_('location'))
 #     user = models.ForeignKey(UserModel, on_delete=models.CASCADE)
 #     status = models.CharField(verbose_name=_('status'), max_length=3, blank=True,

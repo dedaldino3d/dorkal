@@ -2,8 +2,8 @@ from django.contrib import admin
 from . import models
 
 
-@admin.register(models.Image)
-class ImageAdmin(admin.ModelAdmin):
+@admin.register(models.Post)
+class PostAdmin(admin.ModelAdmin):
 
     list_display_links = (
         'location',
@@ -11,7 +11,7 @@ class ImageAdmin(admin.ModelAdmin):
 
     search_fields = (
         'location',
-        'caption',
+        'content',
     )
 
     list_filter = (
@@ -22,19 +22,19 @@ class ImageAdmin(admin.ModelAdmin):
     list_display = (
         'file',
         'location',
-        'caption',
+        'content',
         'user',
         'created_at',
         'updated_at',
     )
 
 
-@admin.register(models.Like)
-class LikeAdmin(admin.ModelAdmin):
+@admin.register(models.Reaction)
+class ReactionAdmin(admin.ModelAdmin):
 
     list_display = (
         'user',
-        'image',
+        'post',
         'created_at',
         'updated_at',
     )
@@ -44,9 +44,9 @@ class LikeAdmin(admin.ModelAdmin):
 class CommentAdmin(admin.ModelAdmin):
 
     list_display = (
-        'message',
+        'content',
         'user',
-        'image',
+        'post',
         'created_at',
         'updated_at',
     )

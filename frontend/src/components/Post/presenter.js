@@ -2,8 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 
 import Container, { HeaderPost, ContentPost, 
-    Tags, FooterPost } from './styles'
-import Avatar from '../general_components/avatar'
+    Tags, FooterPost, Button, BFollow } from './styles'
+import Avatar from '../Avatar/avatar'
 
 import { GoThumbsup } from 'react-icons/go';
 import { FaRegComment, FaRegHeart } from 'react-icons/fa';
@@ -20,19 +20,22 @@ export const Post = props => {
                         <Avatar
                         width={45}
                         height={45}
-                        source={props.images.user.profile.profile_image || require("images/noPhoto.jpg")}
+                        // source={props.images.user.profile.profile_image || require('../../images/noPhoto.jpg')}
+                        source={require('../../images/noPhoto.jpg')}
                         />
                     </div>
                     <div>
-                        <a href="#" >{props}</a>
-                        <span>{props.images.user.username}</span>
-                        <span>{props.images.created_at}</span>
+                        <a href="#" >Dedaldino A.</a>
+                        <span>dedaldino3D</span>
+                        <span>10/03/2020</span>
                     </div>
                 </div>
-                <button><MdMoreVert/></button>
+                <BFollow>Follow</BFollow>
             </HeaderPost>
             <ContentPost>
-                <p>{props.images.caption}
+                <p>Isso depende do fato de que uma margem definida como 
+                    'auto' em um contêiner flexível absorve espaço extra. Portanto, 
+                    definir uma margem vertical autotornará o item perfeitamente centralizado nos dois eixos.
                 </p>
                 <Tags>
                     <p>@Python</p>
@@ -40,16 +43,12 @@ export const Post = props => {
                     <p>@Java</p>
                     <p>@C++</p>
                 </Tags>
-                <FooterPost>
-                    <div>
-                        <button>{props.images.like_count}<GoThumbsup/></button>
-                        <button>{props.images.comment_count}<FaRegComment/></button>
-                    </div>
-                    <div>
-                        <button><span>{props.images.heart_count}</span> <span><FaRegHeart/></span></button>
-                        <button><span>{props.images.joke_count}</span> <span><FaRegHeart/></span></button>
-                        <button><span>{props.images.shares_count}</span> <span><FiShare2/></span></button>
-                    </div>
+                <FooterPost>                    
+                    <Button>12k<GoThumbsup/></Button>
+                    <Button>4k<FaRegComment/></Button>
+                    <Button>1.5k<FaRegHeart/></Button>
+                    <Button>129k<FaRegHeart/></Button>
+                    <Button>541k<FiShare2/></Button>
                 </FooterPost>
             </ContentPost>
         </Container>

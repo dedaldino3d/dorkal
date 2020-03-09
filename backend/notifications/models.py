@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-from backend.images.models import TimeStampedModel, Image
+from backend.posts.models import TimeStampedModel, Post
 
 # Create your models here.
 
@@ -18,7 +18,7 @@ class Notifications(TimeStampedModel):
 
     creator = models.ForeignKey(auth_user, related_name='not_creator', on_delete=models.CASCADE, verbose_name=_('from'))
     to = models.ForeignKey(auth_user, related_name='not_to', on_delete=models.CASCADE, verbose_name=_('to'))
-    image = models.ForeignKey(Image, null=True, blank=True, on_delete=models.DO_NOTHING, verbose_name=_('image'))
+    post = models.ForeignKey(Post, null=True, blank=True, on_delete=models.DO_NOTHING, verbose_name=_('image'))
     comment = models.TextField(blank=True, verbose_name=_('comment'))
     notification_type = models.CharField(choices=TYPE_CHOICES, null=True, blank=True, max_length=50)
 

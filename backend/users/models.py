@@ -1,17 +1,17 @@
 """
-    www.quotler.com
+    www.dorkal.com
 
  :author
     Dedaldino M. Antonio (3D)
  :decryption
     This software was developed Dedaldino Mambuenze Antonio,
     an programmer Python, love a lot python and others languages like Java, JavaScript, C++, Earlang, Go
-    Quotler, Inc - All right reserved &copy 2020
+    Dorkal, Inc - All right reserved &copy 2020
 """
 
 import re
 
-from backend.images.models import TimeStampedModel
+from backend.posts.models import TimeStampedModel
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.models import UserManager, PermissionsMixin

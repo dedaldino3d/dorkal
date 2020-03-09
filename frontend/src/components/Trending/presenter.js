@@ -15,8 +15,8 @@ export const Container = styled.ul`
     justify-content: flex-start;
     align-items: center;
     overflow: hidden;
-    background-color: #fafafa;
     max-height: 100%;
+    margin: 2px;
 
     /* each element li inside current ul */
     & > li {
@@ -25,13 +25,12 @@ export const Container = styled.ul`
         height: 100%;
         flex: 1 0 140px;
         max-width: 180px;
-        margin: 2px;
         display: block;
         text-align: center;
         border: 1px solid #e2e2e2;
         border-radius: 6px;
-        white-space: initial;
         font-size: 14px;
+        margin: 4px 2px;
 
 /* second element div */
         & div:nth-child(2) {
@@ -68,7 +67,7 @@ export const Container = styled.ul`
                     justify-content: space-between;
                     align-items: center;
                     font-size: 12px;
-                    color: rgba(0,0,0,.3);
+                    color: #989898;
                     /* first element span inside current span */
                     span:first-child {
                         margin-right: 3px;
@@ -90,6 +89,7 @@ const Button = styled.a`
     padding:  8px 12px;
     font-size: 13px;
     align-self: center;
+    font-weight: normal;
 `;
 
 
