@@ -29,8 +29,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'NAME': 'db_wakemake',  # you need to change DB_NAME
-        'USER': 'postgres',
+        'NAME': 'db_dorkal',  # you need to change DB_NAME
+        'USER': 'dedaldino',
         'PASSWORD': 'Dedaldino18',  # need to be secret
         'HOST': 'localhost',
         'PORT': '5432',

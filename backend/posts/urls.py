@@ -30,12 +30,12 @@ urlpatterns = [
     url(
         regex=r'^(?P<post_id>[0-9]+)/comments/(?P<comment_id>[0-9]+)/$',
         view=views.ModerateComments.as_view(),
-        name='comment_post'
+        name='moderate_comment'
     ),
     url(
-        regex=r'^comments/(?P<comment_id>[0-9]+)/$',
-        view=views.Comment.as_view(),
-        name='comment'
+        regex=r'^(?P<post_id>[0-9]+)/comments/(?P<comment_id>[0-9]+)/$',
+        view=views.DeleteComment.as_view(),
+        name='delete_comment'
     ),
     url(
         regex=r'^search/$',

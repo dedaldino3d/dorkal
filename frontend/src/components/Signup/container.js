@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 
 import SignupForm from './presenter'
 
+
+
 class Signup extends Component{
 
     state = {
@@ -13,7 +15,7 @@ class Signup extends Component{
     };
 
     static propTypes = {
-        authSignup: PropTypes.func.isRequired
+        signup: PropTypes.func.isRequired
     };
 
     _handleInputChange = event => {
@@ -26,11 +28,14 @@ class Signup extends Component{
     _handleSubmit = event => {
         const { username, email, password1, password2 } = this.state;
         const data = {
-            username, email, password1, password2
+            username, 
+            email, 
+            password1, 
+            password2
         };
-        const { authSignup } = this.props;
+        const { signup } = this.props;
         event.preventDefault();
-        authSignup(data);
+        signup(data);
     };
 
     render(){

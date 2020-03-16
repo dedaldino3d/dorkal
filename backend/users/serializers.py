@@ -19,8 +19,9 @@ UserModel = get_user_model()
 #
 
 class UserProfileSerializer(serializers.ModelSerializer):
-    # profile_image = ImageSerializer()
-    # user = UserSerializer(source='profile')
+    full_name = serializers.CharField(source='get_full_name', read_only=True)
+    short_name = serializers.CharField(source='get_short_name', read_only=True)
+
 
     class Meta:
         model = UserProfile
@@ -49,6 +50,16 @@ class UserDetailsSerializer(serializers.ModelSerializer):
     followers_count = serializers.SerializerMethodField()
     following_count = serializers.SerializerMethodField()
     friends_count = serializers.SerializerMethodField()
+    is_self = serializers.SerializerMethodField()
+    following = serializers.SerializerMethodField()
+
+    profile = UserProfileSerializer(partial=True)
+
+    class Meta:
+        model = UserModel
+        fields = ('user_id', 'username', 'email', 'phone_number', 'followers_count',
+                  'following_count', 'friends_count', 'is_self', 'following', 'profile')
+        read_only_fields = ('email',)
 
     def get_following_count(self, obj):
         return obj.relationships.objects.following(obj).count()
@@ -58,31 +69,47 @@ class UserDetailsSerializer(serializers.ModelSerializer):
 
     def get_friends_count(self, obj):
         return obj.relationships.objects.friends(obj).count()
+        
+    def get_following(self, obj):
+        if 'request' in self.context:
+            user = self.context['request'].user
+            if (obj in user.get_following(user)):
+                return True
+            else:
+                return False
+        return False
 
-    profile = UserProfileSerializer()
-
-    class Meta:
-        model = UserModel
-        fields = ('user_id', 'username', 'email', 'phone_number', 'followers_count',
-                  'following_count', 'friends_count', 'profile')
-        read_only_fields = ('email',)
+    def get_is_self(self, user):
+        if 'request' in self.context:
+            request =  self.context['request']
+            if user.user_id == request.user.user_id:
+                return True
+            else:
+                return False
+        return False
 
     # Nested writes are not possible by default so you should implement it yourself
     # https://www.django-rest-framework.org/api-guide/relations/#writable-nested-serializers
 
     def update(self, instance, validated_data):
 
-        if validated_data.get('profile'):
-            # get profile data
-            profile_data = validated_data.get('profile')
-            # serialize profile data
-            profile_serializer = UserProfileSerializer(data=profile_data)
+        instance.username = validated_data.get('username', instance.username)
+        instance.email = validated_data.get('email', instance.email)
+        instance.phone_number = validated_data.get('phone_number', instance.phone_number)
 
-            if profile_serializer.is_valid():
-                # update profile data giving a 'profile' instance
-                profile = profile_serializer.update(instance=instance.profile, validated_data=profile_data)
-                # store profile in profile key from validated_data
-                validated_data['profile'] = profile
+        instance.save()
+
+        profile = instance.profile
+        profile_data = validated_data.get('profile', profile)
+
+        profile_serializer = UserProfileSerializer(data=profile_data, partial=True)
+
+        if profile_serializer.is_valid():
+            # update profile data giving a 'profile' instance
+            profile = profile_serializer.update(instance=profile, validated_data=profile_data)
+            # store profile in profile key from validated_data
+            validated_data['profile'] = profile
+            profile.save()
 
         return super(UserDetailsSerializer, self).update(instance, validated_data)
 

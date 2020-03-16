@@ -8,6 +8,11 @@ from imagekit.processors import Transpose
 
 user_models = settings.AUTH_USER_MODEL
 
+
+HEART, JOKE = 'heart', 'joke'
+
+
+
 class TimeStampedModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -23,15 +28,23 @@ class Post(TimeStampedModel):
     ],
         format='JPEG',
         options={'quality': 50})
-    location = models.CharField(max_length=140)
+    location = models.CharField(max_length=140, blank=True)
     content = models.TextField()
     user = models.ForeignKey(
         user_models, null=True, related_name='posts', on_delete=models.CASCADE)
-    tags = TaggableManager()
+    tags = TaggableManager(blank=True)
+
+    # @property
+    # def reaction_count(self):
+    #     return self.reactions.all().count()
 
     @property
-    def reaction_count(self):
-        return self.reactions.all().count()
+    def  reaction_joke(self):
+        return self.reactions.filter(react__exact=JOKE).count()
+
+    @property
+    def  reaction_heart(self):
+        return self.reactions.filter(react__exact=HEART).count()
 
     @property
     def share_count(self):
@@ -51,6 +64,7 @@ class Post(TimeStampedModel):
             return True
         else:
             return False
+
 
     def __str__(self):
         return '{} - {}'.format(self.location, self.content)
@@ -72,10 +86,8 @@ class Comment(TimeStampedModel):
 
 class Reaction(TimeStampedModel):
     """ React Model """
-    LIKE, HEART, JOKE = 'like', 'heart', 'joke'
 
     REACTION = (
-        (LIKE, _('like')),
         (HEART, _('heart')),
         (JOKE, _('joke')),
     )
@@ -85,7 +97,7 @@ class Reaction(TimeStampedModel):
     react = models.CharField(verbose_name=_("React"), default=HEART, blank=True, choices=REACTION, max_length=6)
 
     def __str__(self):
-        return 'User: {} - Post Content: {}'.format(self.user.username, self.post.content)
+        return 'User: {} - {} - Post: {}'.format(self.user.username, self.react, self.post.id)
 
 
 class Share(TimeStampedModel):
@@ -95,7 +107,7 @@ class Share(TimeStampedModel):
     post = models.ForeignKey(Post, null=True, related_name='shares', on_delete=models.CASCADE)
 
     def __str__(self):
-        return 'User: {} - Post Content: {}'.format(self.user.username, self.post.content)
+        return 'User: {} Shared Post: {}'.format(self.user.username, self.post.id)
 
 
 ########################################################################

@@ -1,12 +1,12 @@
 import { connect } from 'react-redux'
 import Login from './container'
-import { authLogin } from '../../actions/user'
+import { login } from '../../actions/auth'
 
 
 const mapDispatchToProps = dispatch => {
     return {
         login: (username, password) => {
-            dispatch(authLogin(username, password))
+            dispatch(login(username, password))
         }
     }
 }

@@ -6,10 +6,6 @@ import Container from './styles';
 
 export const LoginForm = (props) => (
     <Container>
-        <header>
-            <h3>Dorkal</h3>
-        </header>
-
         <div>
             <img src="#"/>
             <div>

@@ -18,8 +18,8 @@ class Notifications(TimeStampedModel):
 
     creator = models.ForeignKey(auth_user, related_name='not_creator', on_delete=models.CASCADE, verbose_name=_('from'))
     to = models.ForeignKey(auth_user, related_name='not_to', on_delete=models.CASCADE, verbose_name=_('to'))
-    post = models.ForeignKey(Post, null=True, blank=True, on_delete=models.DO_NOTHING, verbose_name=_('image'))
-    comment = models.TextField(blank=True, verbose_name=_('comment'))
+    post = models.ForeignKey(Post, null=True, blank=True, on_delete=models.DO_NOTHING, verbose_name=_('post'))
+    comment = models.TextField(blank=True, verbose_name=_('comment'), null=True)
     notification_type = models.CharField(choices=TYPE_CHOICES, null=True, blank=True, max_length=50)
 
     class Meta:

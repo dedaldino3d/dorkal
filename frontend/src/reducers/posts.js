@@ -6,16 +6,20 @@ const initialState = {};
 
 //Reducer
 
-function reducer(state = initialState, action) {
+export const postReducer = (state = initialState, action) => {
   switch (action.type) {
     case types.SET_FEED:
-      return applySetFeed(state, action);
-    case types.is_liked:
-      return applyLikePhoto(state, action);
-    case types.UNLIKE:
-      return applyUnlikePhoto(state, action);
-    case types.ADD_COMMENT:
-      return applyAddComment(state, action);
+      return setFeed(state, action);
+    case types.LIKE_POST:
+      return likePost(state, action);
+    case types.UNLIKE_POST:
+      return unlikePost(state, action);
+    case types.ADD_COMMENT_SUCCESS:
+      return addComment(state, action);
+    case types.DELETE_COMMENT_SUCCESS:
+      return deleteComment(state, action);
+    case types.DELETE_POST_SUCCESS:
+      return deletePost(state, action);
     default:
       return state;
   }
@@ -23,42 +27,115 @@ function reducer(state = initialState, action) {
 
 // Reducer Functions
 
-
-const applyLikePhoto = (state, action) => {
-  const { postId } = action;
-  const { feed } = state;
-  const updatedFeed = feed.map(photo => {
-    if (photo.id === photoId) {
-      return { ...photo, is_liked: true, like_count: post.like_count + 1 };
-    }
-    return photo;
-  });
-  return { ...state, feed: updatedFeed };
+const setFeed = (state, action) => {
+  const { feed } = action;
+  return {
+    ...state,
+    feed
+  }
 }
 
-const applyUnlikePhoto = (state, action) => {
-  const { photoId } = action;
-  const { feed } = state;
-  const updatedFeed = feed.map(photo => {
-    if (photo.id === photoId) {
-      return { ...photo, is_liked: false, like_count: photo.like_count - 1 };
-    }
-    return photo;
-  });
-  return { ...state, feed: updatedFeed };
-}
 
-const applyAddComment = (state, action) => {
-  const { photoId, comment } = action;
+const likePost = (state, action) => {
+  const { post_id } = action;
   const { feed } = state;
-  const updatedFeed = feed.map(photo => {
-    if (photo.id === photoId) {
+  const updatedFeed = feed.map( post => {
+    if(post[post_id] === post_id){
       return {
-        ...photo,
-        comments: [...photo.comments, comment]
+        ...post,
+        is_liked: true,
+        like_count: post.like_count + 1
       };
     }
-    return photo;
+    return post;
   });
-  return { ...state, feed: updatedFeed };
+  return {
+    ...state,
+    feed: updatedFeed
+  };
 }
+
+const unlikePost = (state, action) => {
+  const { post_id } = action;
+  const { feed } = state;
+  const updatedFeed = feed.map(post => {
+    if (post[post_id] === post_id) {
+      return { 
+        ...post, 
+        is_liked: false, 
+        like_count: post.like_count - 1 
+      };
+    }
+    return post;
+  });
+  return { 
+    ...state, 
+    feed: updatedFeed 
+  };
+}
+
+const addComment = (state, action) => {
+  const { post_id, comment } = action;
+  const { feed } = state;
+  const updatedFeed = feed.map((post, key) => {
+    if (post[post_id] === post_id) {
+      return {
+        ...post,
+        comments: [
+          ...post.comments, 
+          comment
+        ],
+      };
+    }
+    return post;
+  });
+  return { 
+    ...state, 
+    feed: updatedFeed 
+  };
+}
+
+const addPost = (state, action) => {
+  const { post } = action;
+  const { feed } = state;
+  return {
+    ...state,
+    feed: {
+      ...state.feed,
+      post
+    }
+  }
+}
+
+const deleteComment = (state, action) => {
+  const { post_id, comment_id } = action;
+  const { feed } = state;
+
+  const updatedFeed = feed.map(post => {
+      if(post[post_id] === post_id){
+        return post.filter(comment => comment[comment_id] !== comment_id)
+      }
+      return post;
+  });
+  return {
+    ...state,
+    feed: updatedFeed
+  };
+}
+
+const deletePost = (state, action) => {
+  const { post_id } = action;
+  const { feed } = state;
+
+  const updatedFeed = feed.filter(post => post[post_id] !== post_id)
+
+  return {
+    ...state,
+    feed: updatedFeed
+  }
+}
+
+
+
+export default postReducer
+

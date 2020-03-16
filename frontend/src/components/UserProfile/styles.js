@@ -21,7 +21,7 @@ export const InfoHeader = styled.div`
     flex-flow: row nowrap;
     max-width: 100%;
     justify-content: space-between;
-    border-bottom: 1px solid #e3e3e3;
+    border-bottom: 1px solid rgb(56,68, 77);
     padding: 10px 10px 5px;
 
 /* first div in component InfoHeader */

@@ -39,17 +39,6 @@ class CustomUserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
-    DEACTIVE = 'DD'
-    ACTIVE = 'A'
-    BLOCKED = 'B'
-    DELETED = 'DL'
-
-    ACCOUNT_STATUS = (
-        (DEACTIVE, _(u'deactive')),
-        (ACTIVE, _(u'active')),
-        (BLOCKED, _(u'blocked')),
-        (DELETED, _(u'deleted')),
-    )
 
     VALIDATOR = [validators.RegexValidator(re.compile('^[\w.@]+$'),
                                            _('Name can only contain letters and character @'), 'invalid')]
@@ -66,9 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
     email = models.EmailField(unique=True, verbose_name=_('email'),
                               max_length=250, blank=False, null=False)
     phone_number = models.CharField(unique=True, max_length=16, blank=False, null=True)
-    account_status = models.CharField(max_length=45,
-                                      verbose_name=_('account status'), blank=True, null=False,
-                                      choices=ACCOUNT_STATUS, default=DEACTIVE)
+    
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -179,7 +166,7 @@ class UserProfile(TimeStampedModel):
     VALIDATOR = [validators.RegexValidator(re.compile('^[\w]+$'),
                                            _('Only can has letters'), 'invalid')]
 
-    user_profile_id = models.AutoField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     user = models.OneToOneField(UserModel, verbose_name=_('user'), blank=False, null=False,
                                 on_delete=models.CASCADE, related_name='profile')
     first_name = models.CharField(max_length=125, verbose_name=_('first name'),

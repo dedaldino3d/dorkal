@@ -5,8 +5,8 @@ import Signup from './container'
 
 const mapDispatchToProps = dispatch => {
     return {
-        authSignup: data => {
-            dispatch(authSignup(data))
+        signup: data => {
+            dispatch(signup(data))
         }
     };
 };

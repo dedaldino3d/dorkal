@@ -3,11 +3,14 @@ import PropTypes from 'prop-types'
 import LoginForm from './presenter'
 
 export class Login extends Component{
-
-    state = {
-        username: "",
-        password: ""
+    constructor(props){
+        super(props)
+        this.state = {
+            username: "",
+            password: ""
+        }
     }
+    
 
     static propTypes = {
         login: PropTypes.func.isRequired
@@ -23,6 +26,10 @@ export class Login extends Component{
     _handleSubmit = event => {
         const { login } = this.props;
         const { username, password } = this.state;
+        const data = { 
+            username, 
+            password
+        };
         event.preventDefault();
         login(username, password);
     };

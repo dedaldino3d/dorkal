@@ -14,9 +14,14 @@ export const Container = styled.div`
     max-width: 100%;
     box-shadow: 0 0 10px 0 rgba(75, 79, 92, 0.1);
     background-color: #6f1287;
-    border: 1px solid #e2e2e2;
+    border: 1px solid rgb(56,68, 77);
     margin: 4px;
     border-radius: 3px;
+
+    :hover {
+        background-color: #ba1fe0;
+        transition: background-color .3s ease-in-out 0s;
+    }
 `;
 
 const Form = styled.form`
@@ -26,7 +31,7 @@ const Form = styled.form`
 
     input {
         flex: 2 1 auto;
-        border: 1px solid #ddd;
+        border: 1px solid rgb(56,68,77);
         border-radius: 20px;
         padding: 8px 12px;
         margin-right: 5px;
@@ -38,7 +43,7 @@ const Button = styled.button`
     border: none;
     background-color: transparent;
     color: #fff;
-    border-radius: 10px;
+    border-radius: 15px;
     border: 1px solid #fff;
     padding-left: 10px;
     padding-right: 10px;

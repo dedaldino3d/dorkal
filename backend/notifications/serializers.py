@@ -5,8 +5,8 @@ from backend.posts.serializers import SmallPostSerializer
 
 
 class NotificationSerializer(serializers.ModelSerializer):
-    creator = ListUserSerializer(source='not_creator')  # from of action
-    to = ListUserSerializer(source='not_to')  # to of action
+    creator = ListUserSerializer()  # from of action
+    to = ListUserSerializer()  # to of action
     post = SmallPostSerializer()  # post for notifications -- n.t see it again
 
     class Meta:

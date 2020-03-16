@@ -46,7 +46,7 @@ export default createGlobalStyle`
     body {
         font-family: -apple-system, BlinkMacSystemFont, Roboto, "Helvetica Neue", "Segoe UI", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
         font-size: calc(13px + (16 - 13) * ((100vw - 200px) / (1600 - 200)));
-        background-color: #000f1f;
+        background-color: rgb(21, 32, 43);
         color: #fff;
         -webkit-font-smoothing: antialiased !important;
     }
@@ -62,10 +62,10 @@ export default createGlobalStyle`
             color:#fff;
         }
         :visited{
-            color:#e6e6ff;
+            color:#fff;
         }
         :hover{
-            color:#ffff;
+            color:#fff;
         }
         :active{
             color:#fff;

@@ -50,16 +50,17 @@ class FollowUser(APIView):
 
         # Try finding a user to follow
         try:
-            user_to_follow = models.User.objects.get(id=user_id)
+            user_to_follow = models.User.objects.get(user_id=user_id)
         # if he didn't find raise a exception DoesNotExist
-        except models.Users.DoesNotExist:
+        except models.User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         # add a user_to_follow on user followers list
         user.relationships.objects.add(user, user_to_follow)
         # save the instance of user
         user.save()
         # create a notification from user to user_to_follow
-        notifications_views.create_notification(user, user_to_follow, 'follow')
+        # notifications_views.create_notification(creator=user, to=user_to_follow,
+        #                              notification_type='follow')
         return Response(status=status.HTTP_200_OK)
 
 
@@ -68,7 +69,7 @@ class UnFollowUser(APIView):
     UnFollow a user
     """
 
-    permission_classes = (IsAuthenticated, TokenHasReadWriteScope)
+    permission_classes = (IsAuthenticated,)
     queryset = models.User.objects.all()
 
     # When arrive a POST request this function will respond
@@ -78,12 +79,68 @@ class UnFollowUser(APIView):
         user = request.user
         # Try finding a user to follow
         try:
-            user_to_unfollow = get_object_or_404(self.queryset, id=user_id)
+            user_to_unfollow = get_object_or_404(self.queryset, user_id=user_id)
         # if he didn't find raise a exception DoesNotExist
         except models.User.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
         # remove a user_to_follow on user followers list
         user.relationships.objects.remove(user, user_to_unfollow)
+        # save the instance of user
+        user.save()
+        return Response(status=status.HTTP_200_OK)
+
+# Add BlockUser and UnBlockUser
+
+class BlockUser(APIView):
+    """
+    Block a user
+    """
+
+    permission_classes = (IsAuthenticated,)
+
+    # When arrive a POST request this function will respond
+    def post(self, request, user_id, format=None):
+
+        # Get the user logged in
+        user = request.user
+
+        # Try finding a user to follow
+        try:
+            user_to_block = models.User.objects.get(user_id=user_id)
+        # if he didn't find raise a exception DoesNotExist
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        # add a user_to_block on user blockers list
+        status_block = models.RelationshipStatus.objects.blocking()
+        user.relationships.objects.add(user, user_to_block, status=status_block)
+        # save the instance of user
+        user.save()
+        
+        return Response(status=status.HTTP_200_OK)
+
+
+class UnBlockUser(APIView):
+    """
+    UnBlock a user
+    """
+
+    permission_classes = (IsAuthenticated,)
+    queryset = models.User.objects.all()
+
+    # When arrive a POST request this function will respond
+    def post(self, request, user_id, format=None):
+
+        # Get the user logged in
+        user = request.user
+        # Try finding a user to follow
+        try:
+            user_to_unblock = get_object_or_404(self.queryset, id=user_id)
+        # if he didn't find raise a exception DoesNotExist
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+        # remove a user_to_unblock on user blockers list
+        status_block = models.RelationshipStatus.objects.blocking()
+        user.relationships.objects.remove(user, user_to_unblock, status=status_block)
         # save the instance of user
         user.save()
         return Response(status=status.HTTP_200_OK)
@@ -98,12 +155,11 @@ class UserProfile(APIView):
 
     # Get a user(user logged in)
     def _get_profile(self, username):
-        # found_user = models.User.objects.get(username=username)
-        # return found_user
+
         try:
             found_user = models.User.objects.get(username=username)
         except models.User.DoesNotExist:
-            return None
+            return Response(status=status.HTTP_404_NOT_FOUND)
         return found_user
 
     # When arrive a GET request this function will respond
@@ -168,6 +224,10 @@ class UserFollowing(APIView):
 
 
 class UserBlockers(APIView):
+    """
+    User Blockers:
+        who blocking me
+    """
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
     serializer_class = ListUserSerializer
     queryset = models.User.objects.all()
@@ -183,6 +243,7 @@ class UserBlockers(APIView):
 class UserBlocking(APIView):
     """
     User Blocking
+        who I am block
     """
     permission_classes = (IsAuthenticated, IsOwnerOrReadOnly)
     serializer_class = ListUserSerializer
@@ -199,6 +260,7 @@ class UserBlocking(APIView):
 class UserFriends(APIView):
     """
     User friends
+        who is my friend
     """
     permission_classes = (IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly)
     serializer_class = ListUserSerializer

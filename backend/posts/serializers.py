@@ -32,16 +32,16 @@ class CountPostSerializer(serializers.ModelSerializer):
         )
 
 
-class FeedUserSerializer(serializers.ModelSerializer):
+# class FeedUserSerializer(serializers.ModelSerializer):
 
-    class Meta:
-        model = UserDetailsSerializer()
-        fields = '__all__'
+#     class Meta:
+#         model = UserDetailsSerializer()
+#         fields = '__all__'
 
 
 class CommentSerializer(serializers.ModelSerializer):
 
-    user = FeedUserSerializer(read_only=True)
+    user = UserDetailsSerializer(read_only=True)
 
     class Meta:
         model = models.Comment
@@ -69,7 +69,7 @@ class ShareSerializer(serializers.ModelSerializer):
 class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     comments = CommentSerializer(many=True)
-    user = FeedUserSerializer()
+    user = UserDetailsSerializer(read_only=True)
     tags = TagListSerializerField()
     is_reacted = serializers.SerializerMethodField()
 
@@ -80,8 +80,10 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
             'file',
             'location',
             'content',
+            'comment_count',
             'comments',
-            'react_count',
+            'reaction_joke',
+            'reaction_heart',
             'share_count',
             'user',
             'tags',
@@ -92,23 +94,62 @@ class PostSerializer(TaggitSerializer, serializers.ModelSerializer):
 
     def get_is_reacted(self, obj):
         if 'request' in self.context:
-            request = self.context['request']
+            user = self.context['request'].user
+            # react = ['joke', 'heart']
             try:
                 models.Reaction.objects.get(
-                    user__id=request.user.id, post__id=obj.id)
+                    user__pk=user.user_id, post__pk=obj.id
+                    )
                 return True
             except models.Reaction.DoesNotExist:
                 return False
-        return False
+            return False
+
+    # def get_is_reacted(self, obj):
+    #     if 'request' in self.context:
+    #         r_user = self.context['request'].user
+    #         return obj.is_reacted_by(user=r_user)
+
+    def update(self, instance, validated_data):
+        instance.content = validated_data.get('content', instance.content)
+        instance.tags = validated_data.get('tags', instance.tags)
+        instance.save()
+        return instance
 
 
-# class ReactionSerializer(serializers.ModelSerializer):
+    def create(self, validated_data):
+        user = None
+        if 'request' in self.context:
+            user = self.context['request'].user
 
-#     class Meta:
-#         model = models.Reaction
-#         fields = (
-#             'user',
-#         )
+        # Use request.user as user
+        validated_data.update({
+            'user': user,
+            'is_active': True,  # is_active becomes False for some reason,
+            # force as True (when creating)
+        })
+
+        return Post.objects.create(**validated_data)
+
+    # def get_is_reacted(self, obj):
+    #     if 'request' in self.context:
+    #         request = self.context['request']
+    #         try:
+    #             models.Reaction.objects.get(
+    #                 user__id=request.user.id, post__id=obj.id)
+    #             return True
+    #         except models.Reaction.DoesNotExist:
+    #             return False
+    #     return False
+
+
+class ReactionSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Reaction
+        fields = (
+            'user',
+        )
 
 
 class InputPostSerializer(serializers.ModelSerializer):
@@ -123,7 +164,6 @@ class InputPostSerializer(serializers.ModelSerializer):
             'content',
             'tags'
         )
-
 
 
     # def get_is_liked(self, obj):

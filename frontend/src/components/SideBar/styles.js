@@ -4,7 +4,7 @@ export const Container = styled.div`
 
     display: flex;
     flex-flow: row wrap;
-    border: 1px solid #989898;
+    border: 1px solid rgb(56, 68, 77);
     border-radius: 10px;
     padding: 15px;
     max-width: 28%;

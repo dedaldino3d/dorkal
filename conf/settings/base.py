@@ -137,7 +137,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [
-    ("""Asta Developer - Dedaldino""", 'asta@astadevelopers.com'),
+    ("""Dorkal Developer - Dedaldino""", 'dorkal@dorkaldevelopers.com'),
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -149,7 +149,7 @@ MANAGERS = ADMINS
 # Uses django-environ to accept uri format
 # See: https://django-environ.readthedocs.io/en/latest/#supported-types
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres:///asta'),
+    'default': env.db('DATABASE_URL', default='postgres:///db_dorkal'),
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
@@ -337,7 +337,7 @@ REST_FRAMEWORK = {
 }
 
 REST_AUTH_REGISTER_SERIALIZERS = {
-    # 'REGISTER_SERIALIZER': 'backend.users.serializers.SignUpSerializer'
+    'REGISTER_SERIALIZER': 'backend.users.serializers.SignUpSerializer'
 }
 
 REST_AUTH_SERIALIZERS = {
@@ -365,7 +365,7 @@ ACCOUNT_ALLOW_REGISTRATION = env.bool(
     'DJANGO_ACCOUNT_ALLOW_REGISTRATION', True,
 )
 
-ACCOUNT_ADAPTER = 'backend.users.adapters.AccountAdapter'
+# ACCOUNT_ADAPTER = 'backend.users.adapters.AccountAdapter'
 SOCIALACCOUNT_ADAPTER = 'backend.users.adapters.SocialAccountAdapter'
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"

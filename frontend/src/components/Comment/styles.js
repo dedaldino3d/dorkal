@@ -2,58 +2,50 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
     display: flex;
-    flex-wrap: nowrap;
-    align-items: flex-start;
-    min-width: 6em;
-    max-width: 25em;
-    width: 100%;
-    padding: .7em;
-    padding-bottom: 2px;
-    margin: 3px;
-    justify-content: center;
-    border: 1px dashed #dedede;
-    border-bottom: none;
-    border-radius: 8px;
-
-    & > div:first-child {
-        margin-top: 12px;
+    flex-flow: row nowrap;
+    flex: 1 1 auto;
+    max-width: 400px;
+    border: 1px solid rgb(56,68,77);
+    padding: 1em;
+    & > img {
+        margin-right: 10px;
     }
+
 `;
 
-
-export const CommentContent = styled.div`
+export const CommentHeader = styled.div`
     display: flex;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    padding: 3px;
-    flex: 1 1 100%;
+    flex-flow: row wrap;
+    justify-content: space-between;
 
     & > div {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        padding: 6px;
-        padding-bottom: 1px;
-        a {
-            margin-right: 5px;
-        }
+        justify-content: flex-start;
+        flex-direction: column;
+        flex: 1 1 auto;
     }
 
-    & div:nth-child(2) {
-        font-size: 1em;
-        color: #313131;
-        padding-bottom: .6em;
+    & > button {
+        flex: 0 1 auto;
     }
+`
 
-    & div:last-child {
-        width: 100%;
+export const CommentContent = styled.div`
+    display: flex;
+    justify-content: space-between;
+    flex-flow: column nowrap;
+
+    & > p {
+        max-width: 100%;
+        word-wrap: break-word;
+    }
+    & > div {
         display: flex;
-        flex-flow: row nowrap;
+        flex-flow: row wrap;
         justify-content: space-between;
         align-items: center;
-        font-size: 1.4em;
-        border-top: 1px solid #f1f1f1;
     }
+
 `
 
 export default Container

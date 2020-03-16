@@ -1,11 +1,16 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from . import models, serializers
 from backend.users import models as user_models
 from backend.users import serializers as user_serializers
 from backend.notifications import views as notification_views
+from backend.users.permissions import IsOwnerOrReadOnly
 
+
+# Change it
+# Code how feed will be renderer, it's more important
 
 class Posts(APIView):
 
@@ -18,13 +23,13 @@ class Posts(APIView):
 
         if following_users:
             for following_user in following_users:
-                user_posts = following_user.posts.all()[:2]
+                user_posts = following_user.posts.all() # [:2]
                 for post in user_posts:
                     post_list.append(post)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        my_posts= user.posts.all()[:2]
-
+        # my_posts= user.posts.all() #[:2]
+        my_posts = models.Post.objects.all()
         for post in my_posts:
             post_list.append(post)
         sorted_list = sorted(
@@ -53,7 +58,8 @@ class ReactPost(APIView):
 
         reacts = models.Reaction.objects.filter(post__id=post_id)
         react_users_ids = reacts.values('user_id')
-        users = user_models.User.objects.filter(id__in=react_users_ids)
+        # change it or remove, problem: security, level: 5
+        users = user_models.User.objects.filter(user_id__in=react_users_ids)
 
         serializer = user_serializers.ListUserSerializer(
             users, many=True, context={'request': request})
@@ -128,8 +134,8 @@ class CommentOnPost(APIView):
 
             serializer.save(user=user, post=found_post)
 
-            notification_views.create_notification(
-                user, found_post.user, 'comment', found_post, serializer.data['content'])
+            # notification_views.create_notification(
+            #     user, found_post.user, 'comment', found_post, serializer.data['content'])
 
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
@@ -138,14 +144,14 @@ class CommentOnPost(APIView):
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class Comment(APIView):
+class DeleteComment(APIView):
 
-    def delete(self, request, comment_id, format=None):
+    def delete(self, request, post_id, comment_id, format=None):
 
         user = request.user
 
         try:
-            comment = models.Comment.objects.get(id=comment_id, user=user)
+            comment = models.Comment.objects.get(id=comment_id, user=user, post=post_id)
             comment.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         except models.Comment.DoesNotExist:
@@ -196,20 +202,20 @@ class ModerateComments(APIView):
 
 class PostDetail(APIView):
 
-    def find_own_post(self, post_id, user):
+    permission_classes = (IsOwnerOrReadOnly, IsAuthenticated,)
+
+    def find_own_post(self, post_id):
         try:
-            post = models.Post.objects.get(id=post_id, user=user)
+            post = models.Post.objects.get(id=post_id)
             return post
         except models.Post.DoesNotExist:
             return None
 
     def get(self, request, post_id, format=None):
 
-        user = request.user
-
         try:
             post = models.Post.objects.get(id=post_id)
-        except models.post.DoesNotExist:
+        except models.Post.DoesNotExist:
             return Response(status=status.HTTP_404_NOT_FOUND)
 
         serializer = serializers.PostSerializer(
@@ -219,13 +225,13 @@ class PostDetail(APIView):
 
     def put(self, request, post_id, format=None):
 
-        user = request.user
-
-        post = self.find_own_post(post_id, user)
+        post = self.find_own_post(post_id)
 
         if post is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-
+        
+        self.check_object_permissions(request, post)
+        
         serializer = serializers.InputPostSerializer(
             post, data=request.data, partial=True)
 
@@ -241,12 +247,12 @@ class PostDetail(APIView):
 
     def delete(self, request, post_id, format=None):
 
-        user = request.user
-
-        post = self.find_own_post(post_id, user)
+        post = self.find_own_post(post_id)
 
         if post is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        self.check_object_permissions(request, post)
 
         post.delete()
 

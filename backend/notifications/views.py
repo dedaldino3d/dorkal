@@ -22,12 +22,12 @@ class Notifications(APIView):
 
         return Response(data=serializer.data, status=status.HTTP_200_OK)
 
-    def create_notification(creator, to, notification_type, image=None, comment=None):
+    def create_notification(creator, to, notification_type, post=None, comment=None):
         notification = models.Notifications.objects.create(
             creator=creator,
             to=to,
             notification_type=notification_type,
-            image=image,
+            post=post,
             comment=comment
         )
 

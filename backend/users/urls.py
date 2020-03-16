@@ -19,6 +19,16 @@ urlpatterns = [
         name='unfollow_user'
     ),
     url(
+        regex=r'^(?P<user_id>[0-9]+)/block/$',
+        view=views.BlockUser.as_view(),
+        name='block_user'
+    ),
+    url(
+        regex=r'^(?P<user_id>[0-9]+)/unblock/$',
+        view=views.UnBlockUser.as_view(),
+        name='unblock_user'
+    ),
+    url(
         regex=r'^(?P<username>\w+)/followers/$',
         view=views.UserFollowers.as_view(),
         name='user_followers'

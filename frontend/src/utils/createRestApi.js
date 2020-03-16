@@ -8,21 +8,6 @@ import { apiEndPoint } from '../config/app';
         for all endpoint that do an asynchronous actions
 */
 
-// class RestApi{
-//     constructor(config){
-//         this.client = axios.create(config);
-//     }
-
-//     request = options => {
-//         return this.client.request(options);
-//     }
-// }
-
-// const createRestApi = () => ({
-//     withConfig: config => new RestApi(config)
-// });
-
-
 const restApi = axios.create({baseURL: apiEndPoint});
 
 restApi.defaults.headers = {'Content-Type': 'application/json'};
@@ -30,9 +15,9 @@ restApi.interceptors.request.use( config => {
     const token = window.localStorage.getItem('token');
 
     if(token){
-        config.headers = Object.assign({
-            Authorization: `JWT ${token}`
-        }, config.headers);
+        config.headers = {
+        	Authorization: `JWT ${token}`
+        }
     }
     return config;
 });
