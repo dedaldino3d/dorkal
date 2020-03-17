@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 
 export const Container = styled.div`
-    max-width: 300px;
+    width: 100%;
     max-height: 3.1em;
 
     display: flex;
@@ -17,21 +17,21 @@ export const Container = styled.div`
 `;
 
 export const Form = styled.form`
+    flex: 1 1 auto;        
+    margin-left: 10px;
 
     & > input {
-        padding: 1em;
+        padding: .5em;
         border: 1px solid rgb(56,68,77);
-        border-top-width: 30%;
         background-color: rgba(25,39,52) ;
-        box-shadow: 0 0 3px 1px rgb(20,140,190);
+        border-radius: 40px !important;
 
         &:focus {
-            border: 2px solid rgba(29,161,242,.5);
+            border: 1px solid rgba(29,161,242,.5);
+            border-radius: 40px;
             transition: border .3s ease-in-out 0s;
         }
         &:hover {
-            background-color: rgba(105,139,152,.2) ;
-            transition: background-color .3s 100ms ease-in-out 0s;
         }
 
     }

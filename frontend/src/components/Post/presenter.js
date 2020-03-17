@@ -16,27 +16,30 @@ export const Post = props => {
             <Avatar
             width={50}
             height={50}
-            alt={`${props.post.user.username}_profile_image` ? 'deda': 'deni'}
-            source={ props.post.user.profile.profile_image || require('../../images/noPhoto.jpg')}
+            alt="Deni profile_image"
+            source={require('../../images/noPhoto.jpg')}
             />
             <div>
                 <HeaderPost>
                     <div>
-                        <a href="#" >{props.post.user.profile.full_name}</a>
-                        <span>{`@${props.post.user.username}`}</span>
-                        <span>{props.post.natural_time}</span>
+                        <a href="#" >Dedaldino Antonio</a>
+                        <span>20/03/2020</span>
                     </div>
-                    <ButtonFollow user={props.post.user}/>
+                    <ButtonFollow/>
                 </HeaderPost>
                 <ContentPost>
-                    <p>{props.post.content}</p>
+                    <p>O PostgreSQL disponibiliza três abordagens distintas para correspondência com padrão: o operador LIKE tradicional do
+SQL; o operador mais recente SIMILAR TO (adicionado ao SQL:1999); e as expressões regulares no estilo POSIX. Além
+disso, também está disponível a função de correspondência com padrão substring, que utiliza expressões regulares tanto
+no estilo SIMILAR TO quanto no estilo POSIX. 
+                    </p>
                     <Tags>
-                        <p>{props.post.tags}</p>
+                        <p>PostgreSQL</p>
                     </Tags>
                     <FooterPost>                    
-                        <Button>{props.post.comment_count}<FaRegComment/></Button>
-                        <Button>{props.post.heart_count}<FaRegHeart/></Button>
-                        <Button>{props.post.shares_count}<FiShare2/></Button>
+                        <Button>{200}k<FaRegComment/></Button>
+                        <Button>{1,3}M<FaRegHeart/></Button>
+                        <Button>{56}M<FiShare2/></Button>
                     </FooterPost>
                 </ContentPost>
             </div>
@@ -44,22 +47,22 @@ export const Post = props => {
     )
 }
 
-Post.propTypes = {
-    post: PropTypes.shape({
-        user: PropTypes.shape({
-            username: PropTypes.string.isRequired,
-            profile: PropTypes.shape({
-                profile_image: PropTypes.string
-            })
-        }).isRequired,
-        comment_count: PropTypes.number.isRequired,
-        heart_count: PropTypes.number.isRequired,
-        joke_count: PropTypes.number.isRequired,
-        shares_count: PropTypes.number.isRequired,
-        created_at: PropTypes.number.isRequired,
-        tags: PropTypes.arrayOf(PropTypes.string).isRequired
-    }).isRequired
-}
+// Post.propTypes = {
+//     post: PropTypes.shape({
+//         user: PropTypes.shape({
+//             username: PropTypes.string.isRequired,
+//             profile: PropTypes.shape({
+//                 profile_image: PropTypes.string
+//             })
+//         }).isRequired,
+//         comment_count: PropTypes.number.isRequired,
+//         heart_count: PropTypes.number.isRequired,
+//         joke_count: PropTypes.number.isRequired,
+//         shares_count: PropTypes.number.isRequired,
+//         created_at: PropTypes.number.isRequired,
+//         tags: PropTypes.arrayOf(PropTypes.string).isRequired
+//     }).isRequired
+// }
 
 
 export default Post

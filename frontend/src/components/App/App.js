@@ -10,8 +10,6 @@ import Login from '../Login/index';
 // import Trending from '../Trending/presenter';
 import Sidebar from '../SideBar/presenter'
 import Post from '../Post/presenter';
-import Comment from '../Comment/presenter'
-import CommentBox from '../CommentBox/presenter'
 import UserProfileForm from '../UserProfile/presenter'
 
 
@@ -21,8 +19,7 @@ class App extends React.Component {
         return (
             <Provider store={store}>
                 <Fragment>
-                    <Comment/>
-                    <CommentBox/>
+                    <UserProfileForm/>
                 </Fragment>
             </Provider>
         );

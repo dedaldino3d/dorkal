@@ -10,6 +10,8 @@ import Post from '../Post/presenter'
 import AddPost from '../general_components/addPost'
 import { FaUsers, FaRegEye, FaUserFriends } from 'react-icons/fa';
 import { MdGroup, MdPersonAdd } from 'react-icons/md';
+import Comment from '../Comment/presenter'
+import CommentBox from '../CommentBox/presenter'
 
 
 const UserProfileForm = props => {
@@ -43,6 +45,8 @@ const UserProfileForm = props => {
             <Trending/>
             <AddPost
             placeholder="Make difference..."/>
+            <Comment/>
+            <CommentBox/>
             <Post/>
             <Post/>
             <Post/>

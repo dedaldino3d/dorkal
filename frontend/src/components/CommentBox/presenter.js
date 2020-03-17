@@ -9,7 +9,11 @@ import Avatar from '../Avatar/avatar'
 export const CommentBox = props => {
     return (
         <Container>
-            <Avatar/>
+            <Avatar
+            width={32}
+            height={32}
+            source={require('../../images/noPhoto.jpg')}
+            />
             <Form>
                 <input
                 placeholder='Add a comment...'
