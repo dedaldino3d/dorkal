@@ -9,10 +9,9 @@ chardet==3.0.4
 constantly==15.1.0
 cryptography==2.8
 defusedxml==0.6.0
-Django==3.0.1
+Django==3.0.3
 django-allauth==0.41.0
 django-appconf==1.0.3
-django-braces==1.14.0
 django-cors-headers==3.2.0
 django-cors-middleware==1.5.0
 django-debug-toolbar==2.1
@@ -21,14 +20,10 @@ django-oauth-toolkit==1.2.0
 django-redis==4.11.0
 django-rest-auth==0.9.5
 django-rest-framework==0.1.0
-django-rest-framework-social-oauth2==1.1.0
-django-rest-knox==4.1.0
 django-taggit==1.2.0
 django-taggit-serializer==0.1.7
-django-webpack-loader==0.6.0
 djangorestframework==3.11.0
 djangorestframework-jwt==1.11.0
-drfpasswordless==1.3.7 # eliminate
 entrypoints==0.3
 fabio==0.9.0
 Faker==1.0.7
@@ -45,14 +40,11 @@ Pillow==6.2.1
 pipenv==2018.11.26
 psycopg2==2.8.4
 pyapns==0.4.1
-pycodestyle==2.5.0  # eliminate
-pycparser==2.19  # eliminate
+pycodestyle==2.5.0  
+pycparser==2.19  
 pyflakes==2.1.1
 Pygments==2.5.2
-PyHamcrest==1.9.0  # eliminate
-PyJWT==1.7.1  # eliminate
 pyOpenSSL==19.1.0
-Python==3.7.2
 python-dateutil==2.8.1
 python-decouple==3.1
 python3-openid==3.1.0
@@ -62,8 +54,6 @@ requests==2.22.0
 requests-oauthlib==1.3.0
 silx==0.11.0
 six==1.13.0
-social-auth-app-django==3.1.0  # eliminate
-social-auth-core==3.2.0  # eliminate
 sqlparse==0.3.0
 text-unidecode==1.2
 Twisted==19.10.0
