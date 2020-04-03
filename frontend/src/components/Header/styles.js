@@ -15,7 +15,7 @@ export const Container = styled.div`
     top: 0;
     left: 0;
     border-bottom: 1px solid #ddd;
-    box-shadow: 0 0 5px 0 rgba(200,200,200, .7);
+    box-shadow: 0 2px 15px 0 rgba(200,200,200, .7), 0 2px 10px 0 rgba(200,200,200, .7);
     overflow: hidden;
     
     & > div {
@@ -28,19 +28,24 @@ export const Container = styled.div`
         & a {
             color: #666;
             padding: .6em;
-            margin: .03em;
             font-size: 22px;
             line-height: 0;
             transition: background-color .8s ease-in-out;
             & svg {
-                color: #6f1287;
+                color: #8a00e6;
             }
             :hover {
-                background-color: #df80ff;
+                background-color: #9900f8;
+                color: #fff;
+
+                svg{
+                    color: #fff;
+                }
             }
         }
     }
 
 `;
+
 
 export default Container

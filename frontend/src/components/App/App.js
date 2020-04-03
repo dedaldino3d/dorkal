@@ -1,26 +1,28 @@
 import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
+
 import store from '../../store/configureStore';
+import MainContainer from './styles';
 import GlobalStyle from '../Styles/globalStyles';
-// import Signup from '../Signup/index';
-import Login from '../Login/index';
-// import UserProfileForm from '../UserProfile/presenter';
-// import Header from '../Header/presenter'
-// import AddPost from '../general_components/addPost';
-// import Trending from '../Trending/presenter';
-import Sidebar from '../SideBar/presenter'
-import Post from '../Post/presenter';
-import UserProfileForm from '../UserProfile/presenter'
+
+import Routes from '../../routes'
+import { loadUser } from '../../actions/auth'
 
 
-class App extends React.Component {
+class App extends React.PureComponent {
+
+    componentDidMount(){
+        store.dispatch(loadUser())        
+    }
+
 
     render(){
         return (
             <Provider store={store}>
-                <Fragment>
-                    <UserProfileForm/>
-                </Fragment>
+                <GlobalStyle/>
+                <MainContainer>
+                    <Routes />
+                </MainContainer>
             </Provider>
         );
     }

@@ -1,20 +1,23 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import Explore from "./presenter";
+import SearchPresenter from "./presenter";
+
 
 class Container extends Component {
   state = {
-    loading: true
+    isLoading: true
   };
+
   static propTypes = {
     searchByTerm: PropTypes.func.isRequired,
     userList: PropTypes.array,
-    imageList: PropTypes.array
   };
+
   componentDidMount() {
     const { searchByTerm } = this.props;
     searchByTerm();
   }
+  
   componentDidUpdate = (prevProps, prevState) => {
     const { searchByTerm } = this.props;
     if (prevProps.match.params !== this.props.match.params) {
@@ -23,16 +26,16 @@ class Container extends Component {
   };
 
   componentWillReceiveProps = nextProps => {
-    if (nextProps.userList && nextProps.imageList) {
+    if (nextProps.userList) {
       this.setState({
-        loading: false
+        isLoading: false
       });
     }
   };
   render() {
-    const { userList, imageList } = this.props;
+    const { userList } = this.props;
     return (
-      <Explore {...this.state} userList={userList} imageList={imageList} />
+      <SearchPresenter {...this.state} userList={userList} />
     );
   }
 }

@@ -1,69 +1,69 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Container from './styles';
+import Container, { Form, Social, SocialButton } from './styles';
+import { FaFacebookF, FaGooglePlusG, FaTwitter } from 'react-icons/fa';
+import { Link, useRouteMatch } from 'react-router-dom';
 
 
-export const SignupForm = (props) => (
+export const SignupForm = (props) => {
+    const { path } = useRouteMatch();
+
+    return (
     <Container>
-        <header>
-            <h3>Dorkal</h3>
-        </header>
-
+        <h1>Sign up</h1>
+        <Social>
+            <SocialButton><FaFacebookF/></SocialButton>
+            <SocialButton><FaGooglePlusG/></SocialButton>
+            <SocialButton><FaTwitter/></SocialButton>
+        </Social>
+        <p>or use your email for registration</p>
         <div>
-            <img src="#"/>
-            <div>
-                <form 
-                onSubmit={props.handleSubmit}
-                method="POST"
-                >
-                    <input 
-                    type="text" 
-                    placeholder="Username"
-                    name="username"
-                    onChange={props.handleInputChange}
-                    value={props.username}
-                    autoFocus='true'
-                    required='true'
-                    />
-                    <input
-                    type="email"
-                    placeholder="Email"
-                    name="email"
-                    onChange={props.handleInputChange}
-                    value={props.email}
-                    required="true"
-                    />
-                    <input
-                    type="password" 
-                    placeholder="Password"
-                    name="password1"
-                    onChange={props.handleInputChange}
-                    value={props.password1}
-                    required='true'
-                    />
-                    <input
-                    type="password"  
-                    placeholder="Confirm Password"
-                    name="password2"
-                    onChange={props.handleInputChange}
-                    value={props.password2}
-                    required='true'
-                    />
-                    <button
-                    type="submit">Sign up</button>
-                </form>
-                <p>Already have an account?</p>
-                <p>
-                    <a href="#">Login</a> or login with 
-                    <a href="#"> <strong>Facebook</strong></a>,
-                    <a href=""> <strong>Twitter</strong></a>
-                    or <a href="#"> <strong>Google</strong></a>
-                </p>
-            </div>
+            <Form 
+            onSubmit={props.handleSubmit}
+            method="POST"
+            >
+                <input 
+                type="text" 
+                placeholder="Username"
+                name="username"
+                onChange={props.handleInputChange}
+                value={props.username}                
+                required='true'
+                />
+                <input
+                type="email"
+                placeholder="Email"
+                name="email"
+                onChange={props.handleInputChange}
+                value={props.email}
+                required="true"
+                />
+                <input
+                type="password" 
+                placeholder="Password"
+                name="password1"
+                onChange={props.handleInputChange}
+                value={props.password1}
+                required='true'
+                />
+                <input
+                type="password"  
+                placeholder="Confirm Password"
+                name="password2"
+                onChange={props.handleInputChange}
+                value={props.password2}
+                required='true'
+                />
+                <button
+                type="submit">Sign up on Dorkal</button>
+            </Form>
+            <p>Already have an account? <Link to={`${path}/login`}>Login</Link></p>
+            <p>Clicking in <i>'Sign up on Dorkal'</i> you agree with our <a href="#">terms and privacy policy</a></p>
         </div>
     </Container>
-);
+)
+};
 
 SignupForm.propTypes = {
     handleInputChange: PropTypes.func.isRequired,

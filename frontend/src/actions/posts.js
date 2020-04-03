@@ -7,9 +7,18 @@ import { authLogout } from './auth';
 
 
 
-export const set_feed = feed => ({
-    type: types.SET_FEED,
+export const set_feed_request = () => ({
+    type: types.SET_FEED_REQUEST
+})
+
+export const set_feed_success = feed => ({
+    type: types.SET_FEED_SUCCESS,
     feed
+})
+
+export const set_feed_failure = error => ({
+  type: types.SET_FEED_FAILURE,
+  error
 })
 
 export const doLikePost = post_id => ({
@@ -22,27 +31,10 @@ export const  doUnlikePost = post_id => ({
       post_id
   })
 
-export const addComment_Request = post_id => ({
-  type: types.ADD_COMMENT_REQUEST,
-  post_id
-})
-
-export const addComment_Success = (post_id, comment) => ({
+export const addComment_Success = (post_id, content) => ({
   type: types.ADD_COMMENT_SUCCESS,
   post_id,
-  comment
-})
-
-export const addComment_Failure = (post_id, error) => ({
-  type: types.ADD_COMMENT_FAILURE,
-  post_id,
-  error
-})
-
-export const deleteComment_Request = (post_id, comment_id) => ({
-  type: types.DELETE_COMMENT_REQUEST,
-  post_id,
-  comment_id
+  content
 })
 
 export const deleteComment_Success = (post_id, comment_id) => ({
@@ -51,40 +43,30 @@ export const deleteComment_Success = (post_id, comment_id) => ({
   comment_id
 })
 
-export const deleteComment_Failure = error => ({
-  type: types.DELETE_COMMENT_FAILURE,
-  error
-})
-
-export const addPost_Request = () => ({
-  type: types.ADD_POST_REQUEST
-})
-
-export const addPost_Success = (post_id, post ) => ({
+export const addPost_Success = post => ({
   type: types.ADD_POST_SUCCESS,
-  post_id,
   post
 })
 
-export const addPost_Failure = error => ({
-  type: types.ADD_POST_FAILURE,
-  error
-})
-
-export const deletePost_Request = post_id => ({
-  type: types.DELETE_POST_REQUEST,
-  post_id
-})
 
 export const deletePost_Success = post_id => ({
   type: types.DELETE_POST_SUCCESS,
   post_id
 })
 
-export const deletePost_Failure = error => ({
-  type: types.DELETE_POST_FAILURE,
-  error
+export const editPost_success = (post_id, data) => ({
+  type: types.EDIT_POST_SUCCESS,
+  post_id,
+  data
 })
+
+export const editComment_success = (post_id, comment_id, content) => ({
+  type: types.EDIT_COMMENT_SUCCESS,
+  post_id,
+  comment_id,
+  content
+})
+
 
 
   // API Actions
@@ -92,24 +74,24 @@ export const deletePost_Failure = error => ({
 
 export const getFeed = () => {
   return dispatch => {
-
+    dispatch(set_feed_request());
+    
     return postService().getFeed()
     .then(response => {
       if(response.status === 401){
         console.log("You need to be logged in")
         dispatch(authLogout())
       }else{
-        const data = normalize(response.data, schema.feedSchema);
+        // const data = normalize(response.data, schema.feedSchema);
+        
+        dispatch(set_feed_success(response.data));
 
-        // console.log("Denormalized response", response.data);
-        // console.log("Normalized response", normalize(response.data, schema.feedSchema));
-        console.log("Normalized response with entities: ", data.entities);
-
-        dispatch(set_feed(data.entities));
+        console.log("Normalized response without entities - Feed: ", response.data);
       }
     })
     .catch(error => {
-      console.log("You not logged in, You must be logged in to see your feed");
+        dispatch(set_feed_failure(error));
+        console.log("You not logged in, You must be logged in to see your feed");
     })
   }
 };
@@ -148,22 +130,21 @@ export const unReactPost = post_id => {
   }
 };
 
-export const commentOnPost = (post_id, comment) => {
+export const commentOnPost = (post_id, content) => {
   return dispatch => {
-    dispatch(addComment_Request(post_id))
     
-    return postService().commentOnPost(post_id, comment)
+    return postService().commentOnPost(post_id, content)
       .then(response => {
         if (response.status === 401) {
           dispatch(authLogout());
         }else {
-          const data = normalize(response.data, schema.commentSchema);
-          console.log("ADD comment response: ", data.entities);
-          dispatch(addComment_Success(post_id, data.entities));
+          // const data = normalize(response.data, schema.commentSchema);
+          console.log("ADD comment response: ", response.data);
+          dispatch(addComment_Success(post_id, response.data));
         }
       })
       .catch( error => {
-        dispatch(addComment_Failure(post_id, error));
+        console.log("Comment on post error: ", error);
       });
     };
 };
@@ -171,21 +152,17 @@ export const commentOnPost = (post_id, comment) => {
 
 export const addPost = post => {
   return dispatch => {
-    dispatch(addPost_Request())
-    const dataSer = JSON.stringify(post);
-
-    return postService().addPost(dataSer)
+    return postService().addPost(post)
       .then( response => {
         if (response.status === 401) {
           dispatch(authLogout());
         }else{
           const data = normalize(response.data, schema.postSchema);
-          console.log("ADD post response: ", data.entities);
-          dispatch(addPost_Success(data.entities))
+          console.log("ADD post response: ", data);
+          dispatch(addPost_Success(data))
         }
       })
       .catch(error => {
-        dispatch(addPost_Failure(error))
         console.log("Falha ao adicionar o post");
       });
   };
@@ -194,7 +171,6 @@ export const addPost = post => {
 
 export const deleteComment = (post_id, comment_id) => {
   return dispatch => {
-    dispatch(deleteComment_Request());
 
     return postService().deleteComment(post_id, comment_id)
       .then(response => {
@@ -206,16 +182,14 @@ export const deleteComment = (post_id, comment_id) => {
         }
       })
       .catch(error => {
-        console.log("There are some errors!");
-        dispatch(deleteComment_Failure(error));
+        console.log("There are some errors:", error);
       });
   };
 }
 
 
-export const deletePost = (post_id) => {
+export const deletePost = post_id => {
   return dispatch => {
-    dispatch(deletePost_Request(post_id));
 
     return postService().deletePost(post_id)
       .then(response => {
@@ -228,9 +202,44 @@ export const deletePost = (post_id) => {
         }
       })
       .catch(error => {
-        dispatch(deletePost_Failure(error));
-        console.log("Some errors finded, can't delete Post");
+        console.log("Some errors finded, can't delete Post", error);
       });
   };
+}
+
+
+export const editPost = (post_id, data) => {
+  return dispatch => {
+
+    return postService().editPost(post_id, data)
+      .then(response => {
+        if(response.status === 401){
+          dispatch(authLogout());
+        }else {
+          dispatch(editPost_success(post_id, response.data))
+        }
+      })
+      .catch(error => {
+        console.log("Edit post error: ", error)
+      })
+  }
+}
+
+
+export const editComment = (post_id, comment_id, content) => {
+  return dispatch => {
+
+    return postService().editComment(post_id, comment_id, content)
+      .then(response => {
+        if(response.status === 401){
+          dispatch(authLogout());
+        }else {
+          dispatch(editComment_success(post_id, comment_id, response.data))
+        }
+      })
+      .catch(error => {
+        console.log("Edit comment error: ", error)
+      })
+  }
 }
 

@@ -2,10 +2,18 @@ import styled from 'styled-components';
 
 
 export const Container = styled.div`
-    padding-top: 5em;
-    /* max-width: 100%; */
-    min-width: 6em;
-
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    max-width: 40%;
+    margin: auto;
+	padding-top: 5em;
+    @media (max-width: 31.25em){
+        max-width: 100%;
+        margin: .1875em auto;
+    }
 `;
+
+
 
 export default Container

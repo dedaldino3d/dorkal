@@ -1,4 +1,6 @@
 import * as types from '../actions/actionTypes';
+import merge from 'lodash/merge';
+
 
 
 // initial state
@@ -8,14 +10,10 @@ const initialState = {
 }
 
 
-export const userReducer = (state=initialState, action) => {
+export const userReducer = (state = initialState, action) => {
     switch(action.type){
-        case types.SET_USER_LIST_REQUEST:
-            return setUserListRequest(state, action);
-        case types.SET_USER_LIST_SUCCESS:
-            return setUserListSuccess(state, action);
-        case types.SET_USER_LIST_FAILURE:
-            return setUserListFailure(state, action);
+        case types.AUTH_SUCCESS:
+            return setUser_success(state, action);
         case types.FOLLOW_USER:
             return followUser(state, action);
         case types.UNFOLLOW_USER:
@@ -24,15 +22,16 @@ export const userReducer = (state=initialState, action) => {
             return blockUser(state, action);
         case types.UNBLOCK_USER:
             return unblockUser(state, action);
-        case types.SET_POST_LIST_REQUEST:
-            return setPostListRequest(state, action);
-        case types.SET_POST_LIST_SUCCESS:
-            return setPostListSuccess(state, action);
-        case types.SET_POST_LIST_FAILURE:
-            return setPostListFailure(state, action);
+        case types.POST_LIST_SUCCESS:
+            return postListSuccess(state, action);
         case types.USER_PROFILE_PAGE:
-            return setUser_Profile_Page(state, action);
+            return userProfile_page(state, action);
+        case types.EDIT_PROFILE_PAGE:
+            return editProfile_page(state, action);
         default:
+            if(action.entities && action.entities.user){
+                return merge({}, state, action.entities.user)
+            }
             return state;
     }
 }
@@ -41,23 +40,51 @@ export const userReducer = (state=initialState, action) => {
 // reducer functions (mini)
 
 
-export const setUser_Profile_Page = (state, action) => {
-    const { userProfile } = action;
+const setUser_success = (state, action) => {
+    const { user } = action;
 
     return {
         ...state,
-        userProfile
+        user,
     }
 }
 
-const setUserListRequest = (state, action) => {
+const userProfile_page = (state, action) => {
     return {
-        ...state,
-        isLoading: true,
-    };
+        ...state
+    }
 }
 
-const setUserListSuccess = (state, action) => {
+const editProfile_page = (state, action) => {
+    const { user_id, username, email, phone_number } = action;
+    const { user } = state;
+    if(user.username === username){
+        return {
+            ...state,
+            user: {
+                ...state.user,
+                username: username ? username : state.user.username,
+                email: email ? email : state.user.email,
+                phone_number: phone_number ? phone_number : state.user.phone_number,
+                profile: {
+                    ...state.user.profile,
+                    first_name: action.first_name ? action.first_name: state.user.profile.first_name,
+                    last_name: action.last_name ? action.last_name: state.user.profile.last_name,
+                    gender: action.gender ? action.gender: state.user.profile.gender,
+                    location: action.location ? action.location: state.user.profile.location,
+                    occupation: action.occupation ? action.occupation: state.user.profile.occupation,
+                    DOB: action.DOB ? action.DOB: state.user.profile.DOB,
+                    about: action.about ? action.about: state.user.profile.about,
+                }
+            }
+        }
+    }
+    return {
+        ...state
+    }
+}
+
+const userListSuccess = (state, action) => {
     const { userList } = action;
     return {
         ...state,
@@ -66,94 +93,79 @@ const setUserListSuccess = (state, action) => {
     };
 }
 
-const setUserListFailure = (state, action) => {
-    const { error } = action;
-    return {
-        ...state,
-        isLoading: false,
-        error
-    };
-}
 const followUser = (state, action) => {
     const { user_id } = action;
-    const { userList } = state;
-    const updateUserList = userList.map( user => {
-        if(user.user_id === user_id ){
-            return {
-                ...user,
+    const { user } = state;
+    
+    if(user.user_id === user_id){
+        return {
+            ...state,
+            user: {
+                ...state.user,
                 following: true
-            };
-        }
-        return user;
-    });
+            }
+        }    
+    }
     return {
-        ...state,
-        userList: updateUserList
-    };
+        ...state
+    }
 }
 
 const unfollowUser = (state, action) => {
     const { user_id } = action;
-    const { userList } = state;
-    const updateUserList = userList.map( user => {
-        if(user.user_id === user_id){
-            return {
-                ...user,
+    const { user } = state;
+    
+    if(user.user_id === user_id){
+        return {
+            ...state,
+            user: {
+                ...state.user,
                 following: false
-            };
-        }
-        return user;
-    });
+            }
+        }    
+    }
     return {
-        ...state,
-        userList: updateUserList
-    };
+        ...state
+    }
 }
 
 const blockUser = (state, action) => {
     const { user_id } = action;
-    const { userList } = state;
-    const updateUserList = userList.map( user => {
-        if(user.user_id === user_id){
-            return {
-                ...user,
-                blocking: false
-            };
-        }
-        return user;
-    });
+    const { user } = state;
+    
+    if(user.user_id === user_id){
+        return {
+            ...state,
+            user: {
+                ...state.user,
+                blocking: true
+            }
+        }    
+    }
     return {
-        ...state,
-        userList: updateUserList
-    };
+        ...state
+    }
 }
 
 const unblockUser = (state, action) => {
     const { user_id } = action;
-    const { userList } = state;
-    const updateUserList = userList.map( user => {
-        if(user.id === user_id){
-            return {
-                ...user,
+    const { user } = state;
+    
+    if(user.user_id === user_id){
+        return {
+            ...state,
+            user: {
+                ...state.user,
                 blocking: false
-            };
-        }
-        return user;
-    });
+            }
+        }    
+    }
     return {
-        ...state,
-        userList: updateUserList
-    };
+        ...state
+    }
 }
 
-const setPostListRequest = (state, action) => {
-    return {
-        ...state,
-        isLoading: true,
-    };
-}
-
-const setPostListSuccess = (state, action) => {
+const postListSuccess = (state, action) => {
     const { postList } = action;
     return {
         ...state,
@@ -162,14 +174,6 @@ const setPostListSuccess = (state, action) => {
     };
 }
 
-const setPostListFailure = (state, action) => {
-    const { error } = action;
-    return {
-        ...state,
-        isLoading: false,
-        error
-    };
-}
 
 
 export default userReducer;

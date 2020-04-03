@@ -7,7 +7,7 @@ const initialState = {
 }
 
 
-const authReducer = (state=initialState, action) => {
+const authReducer = (state= initialState, action) => {
     switch(action.type){
         case types.AUTH_REQUEST:
             return authRequest(state, action);
@@ -17,6 +17,18 @@ const authReducer = (state=initialState, action) => {
             return authFailure(state, action);
         case types.AUTH_LOGOUT:
             return authLogout(state, action);
+        case types.USER_LOADING:
+            return {
+                ...state,
+                isLoading: true,
+            };
+        case types.USER_LOADED:
+            return {
+                ...state,
+                isAuthenticated: true,
+                isLoading: false,
+                user: action.user
+            };
         default:
             return state;
     }

@@ -2,14 +2,15 @@ import { connect } from "react-redux";
 import * as postActions from '../../actions/posts';
 import Container from "./container";
 
-const mapStateToProps = (state, ownProps) => {
-  const { feed } = state;
+const mapStateToProps = (state) => {
+  const { feed } = state.feed;
+
   return {
-    feed
+    feed,
   };
 };
 
-const mapDispatchToProps = (dispatch, ownProps) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     getFeed: () => {
       dispatch(postActions.getFeed());

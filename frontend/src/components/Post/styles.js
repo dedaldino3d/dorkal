@@ -1,67 +1,115 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
-    border: 1px solid rgb(56, 68, 77);
+
+
+// render all info inside post
+export const ContainerPost = styled.div`
     border-radius: 10px;
     display: flex;
-    flex-flow: row nowrap;
+    flex-flow: column nowrap;
     align-items: center;
-    padding: .734em;
-    padding-top: 1em;
-    margin: .165em .3525em;
-    max-width: 100%;
     flex: 1 1 6em;
-    box-shadow: 0 0 10px 0 rgba(75, 79, 92, 0.7), inset 1px 1px 8px 0 rgb(75, 79, 92, 0.7);
-    
-    :hover {
-        background-color: rgb(99,161,242, .1);
-        transition: background-color .3s 100ms ease-in-out;
+    padding: .934em;
+    padding-top: 1em;
+    margin: .265em .3525em;
+    max-width: 100%;
+    box-shadow: var(--bs-lg) !important;
+    background-color: var(--white);
+
+    & > div {
+        flex: 1 1 auto;
     }
-    & img {
-        flex: 1 1 0%;
-        align-self: flex-start;
+
+    & > span {
+        float: right;
         margin-right: 10px;
+        color: var(--blue-60);
+        cursor: pointer;
+        
     }
 `;
 
+// header post
 export const HeaderPost = styled.div`
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
-    border-bottom: 1px solid rgb(56, 68, 77);
-    max-width: 100%;
+    width: 100%;
     overflow: hidden;
     padding-right: .7em;
     padding-bottom: .7em;
     line-height: 1.4;
 
-    div {
+    & > div {
         display: flex;
-        flex-flow: column wrap;
+        flex-flow: row nowrap;
 
-        & span {
-            font-size: .75em;
-            color: rgb(136, 153, 166);
+        div {
+
+            margin-left: 10px;
+
+            & span {
+                font-size: .75em;
+                color: var(--gray-60);
+            }
+            & > span:first-of-type {
+                display: inline;
+                margin-left: 5px;
+            }
+            & > span {
+                display: block;
+            }
+        }
+    }
+
+    & > button {
+        align-self: center;
+    }
+`;
+
+
+// content post
+export const ContentPost = styled.div`
+    display: block;
+    word-wrap: break-word;
+    word-break: break-all;
+    width: 100%;
+
+    & > div:nth-of-type(2) {
+        display: flex;
+        justify-content: space-between;
+        flex-flow: row wrap;
+        align-items: center;
+        padding: 1em 0 0.4em;
+        & > svg {
+            align-self: center;
         }
     }
 `;
 
 
-export const ContentPost = styled.div`
-    display: block;
-    padding: 5px;
-    word-wrap: break-word;
-    word-break: break-all;
+
+
+
+export const ImgPost = styled.div`
+    max-width: 100%;
+    margin: 10px 5px 1px;
+    
+    img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 8px;
+        cursor: pointer;
+    }
 `;
+
 
 export const Tags = styled.div`
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-start;
-    color: rgb(136, 153, 166);
-    padding: 3px 2px 6px;
+    color: var(--gray-60);
     font-size: .75em;
-    margin-top: 1em;
 
     p {
         padding: 3px;
@@ -69,41 +117,52 @@ export const Tags = styled.div`
     }
 `;
 
+
 export const FooterPost = styled.div`
-    border-top: 1px solid rgb(56, 68, 77);
     display: flex;
     flex-flow: row nowrap;
     justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3px;
+    padding: 4px 1px;
+    
+    & > span:nth-child(2){
+        :hover {
+            svg {
+                color: var(--red);
+            }
+        }
+    }   
+
+    & > span:nth-child(3){
+        :hover {
+            svg {
+                color: var(--yellow-80);
+            }
+        }
+    }
 `
 
-export const Button = styled.button`
+export const Button = styled.span`
     margin-left: 4px;
     margin-top: 4px;
-    border: none;
     border-radius: 40px !important;
     padding: 1px 3px;
-    padding-bottom: 2px;
+    margin-bottom: -5px;
     background-color: transparent;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
     align-self: center;
-    flex: 1 1 auto;
+    max-width: 80px;
     line-height: 1.4;
     transition: background-color .3s ease-in-out 0s;
-    color: rgb(136, 153, 166);
+    color: var(--gray-60);
+    cursor: pointer;
 
     & svg {
         margin-left: 3px;
     }
-
-    :hover {
-        background-color: #311c4a;
-        & svg {
-            transform: translateY(0);
-            transition: transform .3s ease-in-out 0s;
-        }
-    }
 `
 
-export default Container
+export default ContainerPost

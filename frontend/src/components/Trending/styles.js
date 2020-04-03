@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
 
+
+
 // Main component style for trending component
 export const Container = styled.ul`
 
@@ -9,89 +11,83 @@ export const Container = styled.ul`
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    overflow-x: scroll;
+    overflow-x: auto;
     max-height: 100%;
-    margin: 2px;
+    margin: 5px 0;
+    padding: 8px;
 
-    /* each element li inside current ul */
-    & > li {
-        position: relative;
-        padding: 8px;
-        height: 100%;
-        flex: 1 0 140px;
-        max-width: 180px;
-        display: block;
-        text-align: center;
-        border: 1px solid rgb(56, 68, 77);
-        box-shadow: inset 1px 1px 8px 0 rgb(75, 79, 92, 0.7);
-        border-radius: 10px;
-        font-size: 14px;
-        margin: 4px 2px;
+`;
 
-        & div:first-child {
-        }
 
-        /* second element div */
-        & div:nth-child(2) {
-            padding: 5px;
-            width: 100%;
-/* first element div on second element div on li */
-            div:first-child {
-                padding-bottom: 1.98em;
-                
-                /* all element a inside current element div (also children) */
-                & a {
-                    font-weight: bold;
-                    :hover{text-decoration: underline;}
-                    color: #444;
-                    padding: 3px;
-                    margin-bottom: 5px;
-                }
-                /* all elemet p inside current element div */
-                & p {
-                    text-align: center;
-                    text-size-adjust: 100%;
-                }
-            }
-/* second element div on second element div on li */
-            div:nth-child(2) {
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                margin-bottom: 8px;
-                /* each sibling span inside current div */
-                & > span {
-                    display: flex;
-                    flex-flow: row nowrap;
-                    justify-content: space-between;
-                    align-items: center;
-                    font-size: 12px;
-                    color: rgb(56, 68, 77);
-                    /* first element span inside current span */
-                    span:first-child {
-                        margin-right: 3px;
-                    }
-                }
-            }
-        }
+export const Li = styled.li`
+    position: relative;
+    padding: 8px;
+    height: 100%;
+    flex: 1 0 140px;
+    max-width: 180px;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border: none;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
+    border-radius: 10px;
+    background-color: #fff;
+    font-size: 14px;
+    margin: 4px 2px;
+
+    img {
+        align-self: center;
     }
 `;
 
-// Button for trending, render 'see more'
-export const Button = styled.a`
-    border-radius: 40px !important;
-    border: 1px solid rgb(56, 68, 77);
-    background-color: #eaf4ff;
-    color: #1486f3 !important;
-    box-shadow: inset 0 0 0 1px 
-    rgba(20,134,243,0.09) !important;
-    padding:  8px 12px;
-    font-size: 13px;
-    align-self: center;
-    font-weight: normal;
+export const ImgTrending = styled.img`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: inherit;
+    opacity: .2;
+`;
+
+export const Content = styled.div`
+
+    padding-bottom: 1.98em;
+    
+    span {
+        font-weight: bold;
+        color: #444;
+        padding: 3px;
+        margin-bottom: 5px;
+    }
+
+    p {
+        text-align: center;
+        text-size-adjust: 100%;
+    }
+    
+`;
+
+
+export const Footer = styled.div`
+
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
+    margin-bottom: 8px;
+
+    & > span {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        color: rgb(56, 68, 77);
+    
+        svg{
+            margin-left: 3px;
+        }
+    }
 `;
 
 

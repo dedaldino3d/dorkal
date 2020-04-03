@@ -1,13 +1,12 @@
 import { connect } from "react-redux";
-import { actionCreators as userActions } from "redux/modules/user";
+import * as userActions  from "../../actions/user";
 import Container from "./container";
 
 const mapStateToProps = (state, ownProps) => {
-  const { user: { userList, imageList }, routing: { location } } = state;
+  const { user: { userList }} = state.user;
+
   return {
     userList,
-    imageList,
-    location
   };
 };
 

@@ -22,44 +22,13 @@ export const setUnfollowUser = user_id => {
     }
 }
 
-export const setUserListRequest = () => {
-    return {
-        type: types.SET_USER_LIST_REQUEST
-    }
-}
-
 export const setUserListSuccess = userList => {
     return {
-        type: types.SET_USER_LIST_SUCCESS,
+        type: types.USER_LIST_SUCCESS,
         userList
     }
 }
 
-export const setUserListFailure = error => {
-    return {
-        type: types.SET_USER_LIST_FAILURE,
-        error
-    }
-}
-
-export const setPostListRequest = () => {
-    return {
-        type: types.SET_POST_LIST_REQUEST
-    };
-}
-
-export const setPostListSuccess = postList => {
-    return {
-        type: types.SET_POST_LIST_REQUEST,
-        postList
-    };
-}
-export const setPostListFailure = error => {
-    return {
-        type: types.SET_POST_LIST_REQUEST,
-        error
-    };
-}
 
 export const setBlockUser = user_id => {
     return {
@@ -95,18 +64,31 @@ const passwordChange = () => {
 
 export const profile = username => {
     return dispatch => {
+
         return userService().profile(username)
             .then(response => {
                 if(response.status === 401)
                     dispatch(authLogout())
-                const data = normalize(response.data, schema.userSchema)
-                dispatch(setUserProfile(data.entities));
+                dispatch(setUserProfile(response.data));
             })
             .catch(error => {
                 console.log("Profile not loaded");
                 // dispatch('any actions');
             });
     };
+}
+
+export const editProfile = data => {
+    return dispatch => {
+
+        return userService().editProfile(data)
+            .then(response => {
+
+            })
+            .catch(error => {
+
+            })
+    }
 }
 
 
@@ -156,7 +138,7 @@ export const getPostReactions = post_id => {
                     dispatch(authLogout());
                 }else {
                     const data = normalize(response.data, schema.userListSchema);
-                    dispatch(setUserListSuccess(data.entities))
+                    dispatch(setUserListSuccess(data))
                 }
             })
     };
@@ -172,36 +154,33 @@ export const getExplore = () => {
           dispatch(authLogout());
         }else {
             const data = normalize(response.data, schema.userListSchema)
-            dispatch(setUserListSuccess(data.entities));
+            dispatch(setUserListSuccess(data));
         }
       })
       .catch(error => {
-        console.log("Can't get explore, finded some errors");
+        console.log("Can't get explore, finded some errors: ", error);
       });
   };
 }
 
 export const searchByTerm = (searchTerm) => {
+
   return async (dispatch) => {
     try{
-        const userList = await userService().searchUsers(searchTerm);
-        const postList = await userService().searchPosts(searchTerm);
-        if (userList === 401 || postList === 401) {
+        const userList = await searchUsers(searchTerm);
+        if (userList === 401) {
           dispatch(authLogout());
         }
-        const userListNormalized = normalize(userList, schema.userListSchema);
-        const postListNormalized = normalize(postList, schema.feedSchema);
-        dispatch(setUserListSuccess(userListNormalized.entities));
-        dispatch(setPostListSuccess(postListNormalized.entities));
+        dispatch(setUserListSuccess(userList));
     }catch(error){
-        dispatch(setPostListFailure(error));
-        dispatch(setUserListFailure(error));
+        console.log("There was an error when trying get the userList for search: ", error);
+        // dispatch(setUserListFailure(error));
     }
   };
 }
 
-export const searchUsers = (searchTerm) => {
-  return dispatch => {
+
+const searchUsers = (searchTerm) => {
 
     return userService().searchUsers(searchTerm)
         .then(response => {
@@ -210,18 +189,18 @@ export const searchUsers = (searchTerm) => {
             }
             return response.data;
         })
-    }
 }
 
-export const searchPosts = (searchTerm) => {
-  return dispatch => {
 
-    return userService().searchPosts(searchTerm)
-        .then(response => {
-          if (response.status === 401) {
-            return 401;
-          }
-          return response.data;
-        })
-    }
-}
+// const searchPosts = (searchTerm) => {
+
+//     return userService().searchPosts(searchTerm)
+//         .then(response => {
+//           if (response.status === 401) {
+//             return 401;
+//           }
+//           return response.data;
+//         })
+// }
+
+

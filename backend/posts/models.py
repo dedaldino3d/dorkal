@@ -80,6 +80,10 @@ class Comment(TimeStampedModel):
     user = models.ForeignKey(user_models, null=True, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, null=True, related_name='comments', on_delete=models.CASCADE)
 
+    @property
+    def natural_time(self):
+        return naturaltime(self.created_at)
+        
     def __str__(self):
         return self.content
 

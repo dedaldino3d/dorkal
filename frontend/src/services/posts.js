@@ -17,11 +17,11 @@ export default () => {
             url: `/posts/${post_id}/unreactions/`,
             data: post_id
         }),
-        commentOnPost: (post_id, comment) => restApi.request({
+        commentOnPost: (post_id, content) => restApi.request({
             method: 'POST',
             url: `/posts/${post_id}/comments/`,
             data: {
-                content: comment,
+                content,
             }
         }),
         deleteComment: (post_id, comment_id) =>restApi.request({
@@ -37,12 +37,10 @@ export default () => {
             url: `/posts/`,
             data: dataSer
         }),
-        editPost: (post_id, content) => restApi.request({
+        editPost: (post_id, data) => restApi.request({
             method: 'PUT',
             url: `/posts/${post_id}/`,
-            data: {
-                content
-            }
+            data
         }),
         deletePost: post_id => restApi.request({
             method: 'DELETE',

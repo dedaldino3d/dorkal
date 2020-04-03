@@ -10,7 +10,7 @@ class Signup extends Component{
     state = {
         username: "",
         email: "",
-        passoword1: "",
+        password1: "",
         password2: "",
     };
 

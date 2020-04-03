@@ -42,12 +42,14 @@ class CountPostSerializer(serializers.ModelSerializer):
 class CommentSerializer(serializers.ModelSerializer):
 
     user = UserDetailsSerializer(read_only=True)
-
+    # natural_time = serializers.CharField()
+    
     class Meta:
         model = models.Comment
         fields = (
             'id',
             'content',
+            'natural_time',
             'user'
         )
 

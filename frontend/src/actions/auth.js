@@ -33,6 +33,14 @@ export const authLogout = () => {
     };
 }
 
+export const userLoading = () => ({
+  type: types.USER_LOADING
+})
+
+export const userLoaded = user => ({
+  type: types.USER_LOADED,
+  user
+})
 
 export const facebookLogin = access_token => {
     return dispatch => {
@@ -118,6 +126,22 @@ export const login = (username, password) => {
         console.log(error);
             console.log("Error ao conectar com a api");
             dispatch(authFailure(error));
+      })
+  }
+}
+
+
+export const loadUser = () => {
+  return dispatch => {
+    dispatch(userLoading());
+
+    return userService().loadUser()
+      .then( response => {
+        dispatch(userLoaded(response.data));
+      })
+      .catch(error => {
+        dispatch(authFailure());
+        console.log("Erro ao pegar o usuario do backend:", error);
       })
   }
 }

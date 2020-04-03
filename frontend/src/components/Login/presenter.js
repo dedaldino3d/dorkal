@@ -1,48 +1,50 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import Container from './styles';
+import Container, { Form, Social, SocialButton } from './styles';
+import { FaFacebookF, FaGooglePlusG, FaTwitter } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+
 
 
 export const LoginForm = (props) => (
     <Container>
+        <h1>Login</h1>
+        <Social>
+            <SocialButton><FaFacebookF/></SocialButton>
+            <SocialButton><FaGooglePlusG/></SocialButton>
+            <SocialButton><FaTwitter/></SocialButton>
+        </Social>
+        <p>or use your account for login</p>
         <div>
-            <img src="#"/>
-            <div>
-                <form 
-                onSubmit={props.handleSubmit}
-                method="POST"
-                >
-                    <input 
-                    type="text" 
-                    placeholder="Username or Email"
-                    name="username"
-                    onChange={props.handleInputChange}
-                    value={props.username}
-                    autoFocus='true'
-                    required='true'
-                    />
-                    <p><a href="#">Forgot your password?</a></p>
-                    <input
-                    type="password" 
-                    name="password" 
-                    placeholder="Password"
-                    name="password"
-                    onChange={props.handleInputChange}
-                    value={props.password}
-                    required='true'
-                    />
-                    <button
-                    type="submit">Login</button>
-                </form>
-                <p>Don't have an account?</p>
-                <p>
-                    <a href="#">Register</a> or login with 
-                    <a href="#"> <strong>Facebook</strong></a>,
-                    <a href=""> <strong>Twitter</strong></a>
-                    or <a href="#"> <strong>Google</strong></a>
-                </p>
-            </div>
+            <Form 
+            onSubmit={props.handleSubmit}
+            method="POST"
+            >
+                <input 
+                type="text" 
+                placeholder="Username or Email"
+                name="username"
+                onChange={props.handleInputChange}
+                value={props.username}
+                
+                required='true'
+                />
+                <p><a href="#">Forgot your password?</a></p>
+                <input
+                type="password" 
+                name="password" 
+                placeholder="Password"
+                name="password"
+                onChange={props.handleInputChange}
+                value={props.password}
+                required='true'
+                />
+                <button
+                type="submit">Login</button>
+            </Form>
+            <p>Don't have an account? <Link to='/signup' >Sign up</Link></p>
+            <p>Clicking in <i>'Sign up on Dorkal'</i> you agree with our <a href="#">terms and privacy policy</a></p>
         </div>
     </Container>
 );

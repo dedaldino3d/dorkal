@@ -1,60 +1,66 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-
-import Container, { InfoHeader, InfoSeg, AddUser} from './styles'
-
-import Header from '../Header/presenter';
-import Avatar from '../Avatar/avatar'
-import Trending from '../Trending/presenter'
-import Post from '../Post/presenter'
-import AddPost from '../general_components/addPost'
+import { BrowserRouter as Router, Route, Switch, Redirect, Link, useRouteMatch } from 'react-router-dom';
 import { FaUsers, FaRegEye, FaUserFriends } from 'react-icons/fa';
 import { MdGroup, MdPersonAdd } from 'react-icons/md';
-import Comment from '../Comment/presenter'
-import CommentBox from '../CommentBox/presenter'
+
+import Container, { InfoHeader, InfoSeg, ButtonsProfile, Bprofile} from './styles'
+import Avatar from '../Avatar'
+import Trending from '../Trending/presenter'
+import Post from '../Post/presenter'
+import ButtonFollow from '../ButtonFollow'
+import Header from '../Header/presenter'
+import SideBar from '../SideBar/presenter'
+import Search from '../Search/presenter'
+import SearchForm from '../SearchForm/presenter'
+import Svg from '../Views';
+import UserInfo from '../UserInfo/presenter'
 
 
 const UserProfileForm = props => {
+    const { path } = useRouteMatch();
+
     return (
         <Container>
             <Header/>
             <InfoHeader>
                 <div>
                     <Avatar
-                    width={65}
-                    height={65}
+                    tam={75}
                     source={require('../../images/noPhoto.jpg')}
                     />
                     <div>
-                        <div>
-                            <p>Dedaldino A.</p>
-                            <p>@dedaldino3D</p>
-                        </div>
-                        <InfoSeg>
-                            <p>154M<span><FaUsers/>Followers</span></p>
-                            <p>12<span><MdGroup/>Following</span></p>
-                            <p>1<span><FaUserFriends/>Friends</span></p>
-                            <p>2B<span><FaRegEye/>Views</span></p>
-                        </InfoSeg>
+                        <span>Dedaldino A.</span>
+                        <span>@dedaldino3D</span>
+                        <span>Joined at 20/2/2020</span>
                     </div>
                 </div>
-                <AddUser>
-                    <a><MdPersonAdd/></a>
-                </AddUser>
+                <ButtonFollow/>
             </InfoHeader>
+            <InfoSeg>
+                <div>
+                    <Svg md number='432M' svg={<FaUsers/>} content='Followers'/>
+                    <Svg md number='21' svg={<MdGroup/>} content='Following'/>
+                </div>
+                <div>
+                    <Svg md number='31' svg={<FaUserFriends/>}content='Friends'/>
+                    <Svg md number='243k' svg={<FaRegEye/>} content='Views'/>
+                </div>                
+            </InfoSeg>
             <Trending/>
-            <AddPost
-            placeholder="Make difference..."/>
-            <Comment/>
-            <CommentBox/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
-            <Post/>
+            <ButtonsProfile>
+                <Bprofile><Link to={`${path}/info`}>Feed Profile</Link></Bprofile>
+                <Bprofile><Link to={`${path}/estatistcs`}>Estatistcs</Link></Bprofile>
+                <Bprofile><Link to={`${path}/info`}>Info</Link></Bprofile>
+            </ButtonsProfile>
+            <Switch>
+            <Route path={`${path}/info`} component={UserInfo}/>
+            <Route path={`${path}/estatistcs`} component={SearchForm}/>
+            </Switch>
         </Container>
     )
 }
+
 
 UserProfileForm.propTypes = {
 

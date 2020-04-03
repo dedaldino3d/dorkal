@@ -1,12 +1,16 @@
 import { connect } from 'react-redux'
-import Post from './Container'
+import Post from './container'
 
-const mapStateToProps = (state, ownProps) => ({
-    
-})
+const mapStateToProps = (state, ownProps) => {
+	
+    const { user: {user} } = state;
 
-const mapDispatchToProps = {
-    
+	console.log("Teste User State: ", user);
+	
+    return {
+        user,
+    }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Post)
+
+export default connect(mapStateToProps)(Post)

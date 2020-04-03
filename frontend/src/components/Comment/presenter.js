@@ -1,63 +1,71 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import Container, { CommentHeader, CommentContent } from './styles'
-import Avatar from '../Avatar/avatar'
-import ButtonFollow from '../general_components/buttonFollow'
-
+import { Li, CommentHeader, CommentContent } from './styles'
+import Avatar from '../Avatar'
+import ButtonFollow from '../ButtonFollow'
+import { FooterPost, Button} from '../Post/styles'
 import { FaRegComment, FaRegHeart } from 'react-icons/fa'
 import { MdMessage } from 'react-icons/md'
 
 
+
+
+
 export const Comment = props => {
-    const user = {
-        is_self: false,
-    }
     return (
-        <Container>
+        <Li>
             <Avatar
-            // source={props.comment.user.profile.profile_image || require('../../images/noPhoto.jpg')}
-            source={require('../../images/noPhoto.jpg')}
-            width={38}
-            height={38}
-            // alt={`${props.comment.user.username}_profile_image`}
-            alt="3D"
+            source={ /*props.comment.user.profile.profile_image || */require('../../images/noPhoto.jpg')}
+            tam={38}
+            alt={/*props.comment.user.username*/ 'dedaldino'}
             />
             <div>
                 <CommentHeader>
                     <div>
-                        <a href="#">Dedaldino</a>
-                        &nbsp;
-                        <span>@username</span>
-                        <p>08/03/2020</p>
+                        <a href="#">{props.comment.user.profile.full_name || props.comment.user.username}</a>
+
+                        <span>@{props.comment.user.username}</span>
+                        <span>{props.comment.natural_time}</span>
                     </div>
-                    <ButtonFollow user={user}/>
+                    <ButtonFollow user={props.comment.user}/>
                 </CommentHeader>
                 <CommentContent>
-                    <p> Queremos que eles sejam distribuídos uniformemente no eixo horizontal, para que, 
-                        quando redimensionamos o navegador, tudo seja dimensionado corretamente e sem consultas à mídia.
-                    </p>
-                    <div>
-                        <span><FaRegComment/></span>
-                        <span><FaRegHeart/></span>
-                        <span><MdMessage/></span>
-                    </div>
+                    <p>{props.comment.content}</p>
+                    <FooterPost>
+                        <Button><FaRegComment/></Button>
+                        <Button><FaRegHeart/></Button>
+                        <Button><MdMessage/></Button>
+                    </FooterPost>
                 </CommentContent>
             </div>
-        </Container>
+        </Li>
     )
+}
+
+Comment.defaultProps = {
+    comment: PropTypes.shape({
+        natural_time: '10/10/2020',
+        content: 'A defaultProps será usada para garantir que this.props.name tenha um valor caso não tenha sido especificado pelo componente pai',
+        user: PropTypes.shape({
+            username: 'dorkal',
+        })
+
+    })
 }
 
 Comment.propTypes = {
     comment: PropTypes.shape({
-        created_at: PropTypes.number.isRequired,
-        caption: PropTypes.string.isRequired,
+        natural_time: PropTypes.number.isRequired,
+        content: PropTypes.string.isRequired,
         user: PropTypes.shape({
             username: PropTypes.string.isRequired,
             profile: PropTypes.shape({
                 profile_image: PropTypes.string
-            }).isRequired,
-        }).isRequired
-    })
+            }),
+        }).isRequired,
+    }).isRequired,
 }
+
+
 export default Comment

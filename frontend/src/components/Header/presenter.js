@@ -5,32 +5,31 @@ import { FaRegUser } from 'react-icons/fa'
 import { MdMessage } from 'react-icons/md'
 import { FiBell, FiSettings } from 'react-icons/fi'
 import Container from  './styles'
+import { Link } from 'react-router-dom'
 
 
 const Header = props => {
     return (
         <Container>
             <div>
-                <a href="#"><AiOutlineHome/></a>
+                <Link to="/feed"><AiOutlineHome/></Link>
             </div>
             <div>
-                <a href="#"><FaRegUser/></a>
+                <Link to="/profile"><FaRegUser/></Link>
             </div>
             <div>
-                <a href="#"><MdMessage/></a>
+                <Link to="#"><MdMessage/></Link>
             </div>
             <div>
-                <a href="#"><FiBell/></a>
+                <Link to="#"><FiBell/></Link>
             </div>
             <div>
-                <a href="#"><FiSettings/></a>
+                <Link to="#"><FiSettings/></Link>
             </div>
+            
         </Container>
     )
 }
 
-// Header.propTypes = {
-
-// }
 
 export default Header

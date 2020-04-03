@@ -22,21 +22,25 @@ export default () => {
                 password2
             }
         }),
+        loadUser: () => restApi.request({
+            method: 'GET',
+            url: '/auth/user/',
+        }),
         profile: username => restApi.request({
             method: 'GET',
             url: `/users/${username}`
         }),
         followUser: user_id => restApi.request({
             method: 'POST',
-            url: `/users/${user_id}/follow`
+            url: `/users/${user_id}/follow/`
         }),
         unfollowUser: user_id => restApi.request({
-            method: 'DELETE',
-            url: `/users/${user_id}/unfollow`
+            method: 'POST',
+            url: `/users/${user_id}/unfollow/`
         }),
         getPostsReactions: post_id => restApi.request({
             method: 'GET',
-            url: `/posts/${post_id}/reactions`
+            url: `/posts/${post_id}/reactions/`
         }),
         getExplore: () => restApi.request({
             method: 'GET',
