@@ -1,9 +1,10 @@
 import React from 'react'
 // import PropTypes from 'prop-types'
 import { AiOutlineHome } from 'react-icons/ai'
-import { FaRegUser } from 'react-icons/fa'
+import { FaUserAlt, FaBell } from 'react-icons/fa'
 import { MdMessage } from 'react-icons/md'
-import { FiBell, FiSettings } from 'react-icons/fi'
+import { IoMdHome, IoMdSettings } from 'react-icons/io'
+import { FiSettings } from 'react-icons/fi'
 import Container from  './styles'
 import { Link } from 'react-router-dom'
 
@@ -12,19 +13,19 @@ const Header = props => {
     return (
         <Container>
             <div>
-                <Link to="/feed"><AiOutlineHome/></Link>
+                <Link to="/feed"><IoMdHome/></Link>
             </div>
             <div>
-                <Link to="/profile"><FaRegUser/></Link>
+                <Link to="/profile"><FaUserAlt/></Link>
             </div>
             <div>
-                <Link to="#"><MdMessage/></Link>
+                <Link to="/messages"><MdMessage/></Link>
             </div>
             <div>
-                <Link to="#"><FiBell/></Link>
+                <Link to="/notifications"><FaBell/></Link>
             </div>
             <div>
-                <Link to="#"><FiSettings/></Link>
+                <Link to="/settings"><IoMdSettings/></Link>
             </div>
             
         </Container>

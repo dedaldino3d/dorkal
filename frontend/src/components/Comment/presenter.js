@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 import { Li, CommentHeader, CommentContent } from './styles'
 import Avatar from '../Avatar'
@@ -16,14 +17,14 @@ export const Comment = props => {
     return (
         <Li>
             <Avatar
-            source={ /*props.comment.user.profile.profile_image || */require('../../images/noPhoto.jpg')}
+            source={props.comment.user.profile.profile_image || require('../../images/noPhoto.jpg')}
             tam={38}
-            alt={/*props.comment.user.username*/ 'dedaldino'}
+            alt={props.comment.user.username}
             />
             <div>
                 <CommentHeader>
                     <div>
-                        <a href="#">{props.comment.user.profile.full_name || props.comment.user.username}</a>
+                        <Link to="/profile">{props.comment.user.profile.full_name || props.comment.user.username}</Link>
 
                         <span>@{props.comment.user.username}</span>
                         <span>{props.comment.natural_time}</span>
@@ -33,7 +34,6 @@ export const Comment = props => {
                 <CommentContent>
                     <p>{props.comment.content}</p>
                     <FooterPost>
-                        <Button><FaRegComment/></Button>
                         <Button><FaRegHeart/></Button>
                         <Button><MdMessage/></Button>
                     </FooterPost>
@@ -43,16 +43,6 @@ export const Comment = props => {
     )
 }
 
-Comment.defaultProps = {
-    comment: PropTypes.shape({
-        natural_time: '10/10/2020',
-        content: 'A defaultProps será usada para garantir que this.props.name tenha um valor caso não tenha sido especificado pelo componente pai',
-        user: PropTypes.shape({
-            username: 'dorkal',
-        })
-
-    })
-}
 
 Comment.propTypes = {
     comment: PropTypes.shape({

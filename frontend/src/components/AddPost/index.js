@@ -5,10 +5,11 @@ import AddPost from "./container"
 
 
 const mapStateToProps = (state, ownProps) => {
-	const { user: { user }} = state;
-	console.log("Usuario state:",user)
+	const { user, isLoading } = state.user;
+	
 	return {
-		user
+		user,
+		isLoading
 	}
 }
 

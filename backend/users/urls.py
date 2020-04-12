@@ -62,5 +62,5 @@ urlpatterns = [
         regex=r'^(?P<username>\w+)/$',
         view=views.UserProfile.as_view(),
         name='user_profile'
-    )
+    ),
 ]

@@ -55,8 +55,8 @@ export const SignupForm = (props) => {
                 value={props.password2}
                 required='true'
                 />
-                <button
-                type="submit">Sign up on Dorkal</button>
+                {props.isLoading ? <span>Loading...</span>: 
+                <button type="submit">Sign up on Dorkal</button>}
             </Form>
             <p>Already have an account? <Link to={`${path}/login`}>Login</Link></p>
             <p>Clicking in <i>'Sign up on Dorkal'</i> you agree with our <a href="#">terms and privacy policy</a></p>

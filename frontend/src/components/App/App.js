@@ -2,27 +2,29 @@ import React, { Fragment } from 'react';
 import { Provider } from 'react-redux';
 
 import store from '../../store/configureStore';
-import MainContainer from './styles';
+
 import GlobalStyle from '../Styles/globalStyles';
-
-import Routes from '../../routes'
-import { loadUser } from '../../actions/auth'
-
+import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import {DefaultRoutes} from '../../routes'
+import { loadUser } from '../../actions/user'
+import MainContainer from './Main';
 
 class App extends React.PureComponent {
 
     componentDidMount(){
-        store.dispatch(loadUser())        
+        store.dispatch(loadUser())
     }
 
 
     render(){
         return (
             <Provider store={store}>
-                <GlobalStyle/>
-                <MainContainer>
-                    <Routes />
-                </MainContainer>
+                <Router>
+                    <GlobalStyle/>
+                    <DefaultRoutes/>
+                        {/* <Routes /> */}
+                    <MainContainer/>
+                </Router>
             </Provider>
         );
     }

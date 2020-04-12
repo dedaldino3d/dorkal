@@ -9,7 +9,7 @@ from imagekit.processors import Transpose
 user_models = settings.AUTH_USER_MODEL
 
 
-HEART, JOKE = 'heart', 'joke'
+LOVE, JOKE = 'love', 'joke'
 
 
 
@@ -39,12 +39,12 @@ class Post(TimeStampedModel):
     #     return self.reactions.all().count()
 
     @property
-    def  reaction_joke(self):
-        return self.reactions.filter(react__exact=JOKE).count()
+    def react_joke_count(self):
+        return self.reactions.filter(type_react__exact=JOKE).count()
 
     @property
-    def  reaction_heart(self):
-        return self.reactions.filter(react__exact=HEART).count()
+    def react_love_count(self):
+        return self.reactions.filter(type_react__exact=LOVE).count()
 
     @property
     def share_count(self):
@@ -92,16 +92,16 @@ class Reaction(TimeStampedModel):
     """ React Model """
 
     REACTION = (
-        (HEART, _('heart')),
+        (LOVE, _('love')),
         (JOKE, _('joke')),
     )
 
     user = models.ForeignKey(user_models, null=True, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, null=True, related_name='reactions', on_delete=models.CASCADE)
-    react = models.CharField(verbose_name=_("React"), default=HEART, blank=True, choices=REACTION, max_length=6)
+    type_react = models.CharField(verbose_name=_("Type"), default=None, blank=True, choices=REACTION, max_length=6)
 
     def __str__(self):
-        return 'User: {} - {} - Post: {}'.format(self.user.username, self.react, self.post.id)
+        return 'User: {} - {} - Post: {}'.format(self.user.username, self.type_react, self.post.id)
 
 
 class Share(TimeStampedModel):

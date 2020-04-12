@@ -13,53 +13,122 @@ export const Container = styled.div`
     margin: 4px;
     border-radius: 3px;
 
+    & > input {
+        padding: 10px;
+        border: 1px solid var(--border);
+        margin-left: 1em;
+        border-radius: 10px;
+        width: 80%;
+    }
+`;
+
+export const Card= styled.div`
+
+    border: none;
+    border-radius: 10px;
+    box-shadow: var(--bs-xl);
+    padding: 14px 10px 0;
+    margin: 0 10px;
+    position: absolute;
+    z-index: 1000;
+    background: var(--white);
+
+    @media screen and (min-width: 580px){
+        min-width: 530px;
+    }
+`;
+
+export const Header = styled.header`
+    display: flex;
+    align-items: center;
+    line-height: 1.4;
+
+    & > span:first-of-type {
+        margin-left: 10px;
+        font-size: 16px;
+        font-weight: bold;
+        flex-shrink: 2;
+    }
+    & > span:last-child {
+        font-size: 13px;
+        color: var(--gray-40);
+        margin-left: 5px;
+        flex-shrink: 2;
+    }
 `;
 
 export const Form = styled.form`
     display: flex;
-    flex: 1 1 auto;
+    flex-flow: column nowrap;
     height: 100%;
+    width: 100%;
+    margin-top: 8px;
 
     textarea {
-        flex: 3 1 auto;
-        border: none;
-        border-radius: 40px;
+        border: 1px solid var(--border);
+        border-radius: 10px;
         padding: 8px 20px 0;
         overflow: hidden;
-        margin-right: 5px;
-        margin-left: 5px;
         resize: none;
-        height: 60px;
+        min-height: 100px;
         width: 100%;
-        box-sizing: border-box;        
-        z-index: 5;
-        font-family: sans-serif;
-        font-weight: medium;
-        box-shadow: var(--bs-md);
-        ::placeholder{
-            text-align: center;
+    }
+
+`;
+
+export const DivSvg = styled.div`
+
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    max-width: 150px;
+    margin: 8px 0;
+
+    svg {
+        font-size: 22px;
+        color: var(--violet);
+        cursor: pointer;
+
+        :hover{
+            border-radius: 50%;
+            background: var(--gray-10);
         }
     }
 `;
 
-export const Button = styled.button`
-    align-self: center;
-    border: none;
-    background-color: var(--violet);
-    color: var(--white);
-    border-radius: 10px;
-    border: none;
-    padding: 10px;
-    flex: 1 1 40px;
-    box-shadow: var(--bs-inset);
-    transition: background-color .3s, color .3s ease-in-out 0s;
-    cursor: pointer;
-    :hover{
-        color: var(--white);
-        background-color: var(--violet-80);
+export const Footer = styled.div`
+
+    
+    padding: 10px 14px;
+    margin: 5px -10px -5px;
+    border-top: 1px solid var(--border);
+
+    div {
+        float: right;
+
+        & > button, & > span {
+            border: none;
+            padding: 4px 10px;
+            border-radius: 8px;
+
+        }
+        & > button {
+                margin-left: 8px;
+                background: var(--violet-90);
+                color: var(--white);
+            }
+
+        span:first-child{
+            background: var(--gray-10);
+            color: var(--gray-60);
+            padding: 8px 10px;
+            cursor: pointer;
+            :hover{
+                background: var(--gray-20);
+            }
+        }
     }
 `;
-
 
 
 export default Container

@@ -21,3 +21,4 @@ export const PostComments = props => (
 PostComments.propTypes = {
     comments: PropTypes.array.isRequired
 }
+

@@ -6,7 +6,7 @@ export const Container = styled.div`
     padding: .4em;
     justify-content: center;
     align-items: center;
-    background-color: #f9f9f9;
+    background-color: #fff;
     width: 100%;
     min-height: 3em;
     max-height: 4em;
@@ -14,17 +14,19 @@ export const Container = styled.div`
     position: fixed;
     top: 0;
     left: 0;
-    border-bottom: 1px solid #ddd;
-    box-shadow: 0 2px 15px 0 rgba(200,200,200, .7), 0 2px 10px 0 rgba(200,200,200, .7);
+    box-shadow: var(--bs-gl);
     overflow: hidden;
     
     & > div {
         flex: 0 1 auto;
+
         @media (max-width: 576px){
             flex: 1 1 auto;
         }
+        
         height: 100%;
         z-index: 1;
+
         & a {
             color: #666;
             padding: .6em;
@@ -32,14 +34,15 @@ export const Container = styled.div`
             line-height: 0;
             transition: background-color .8s ease-in-out;
             & svg {
-                color: #8a00e6;
+                color: var(--violet);
+                font-size: 18px;
             }
             :hover {
-                background-color: #9900f8;
-                color: #fff;
+                background-color: var(--violet);
+                color: var(--white);
 
                 svg{
-                    color: #fff;
+                    color: var(--white);
                 }
             }
         }

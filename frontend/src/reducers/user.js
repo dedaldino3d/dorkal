@@ -14,6 +14,10 @@ export const userReducer = (state = initialState, action) => {
     switch(action.type){
         case types.AUTH_SUCCESS:
             return setUser_success(state, action);
+        case types.USER_LOADING:
+            return user_loading(state, action);
+        case types.USER_LOADED:
+            return user_loaded(state, action);
         case types.FOLLOW_USER:
             return followUser(state, action);
         case types.UNFOLLOW_USER:
@@ -22,12 +26,16 @@ export const userReducer = (state = initialState, action) => {
             return blockUser(state, action);
         case types.UNBLOCK_USER:
             return unblockUser(state, action);
+        case types.USER_LIST_SUCCESS:
+            return userListSuccess(state, action);
         case types.POST_LIST_SUCCESS:
             return postListSuccess(state, action);
         case types.USER_PROFILE_PAGE:
             return userProfile_page(state, action);
-        case types.EDIT_PROFILE_PAGE:
-            return editProfile_page(state, action);
+        case types.USER_PROFILE_REQUEST:
+            return userProfile_page_request(state, action);
+        case types.EDIT_PROFILE_SUCCESS:
+            return edit_profile_success(state, action);
         default:
             if(action.entities && action.entities.user){
                 return merge({}, state, action.entities.user)
@@ -49,13 +57,40 @@ const setUser_success = (state, action) => {
     }
 }
 
-const userProfile_page = (state, action) => {
+const user_loading = (state, action) => {
     return {
-        ...state
+        ...state,
+        isLoading: true,
     }
 }
 
-const editProfile_page = (state, action) => {
+const user_loaded = (state, action) => {
+    const { user } = action;
+
+    return {
+        ...state,
+        isLoading: false,
+        user
+    }
+}
+
+const userProfile_page_request = (state, action) => {
+    return {
+        ...state,
+        isLoading: true
+    }
+}
+
+const userProfile_page = (state, action) => {
+    const { userProfile } = action;
+    return {
+        ...state,
+        isLoading: false,
+        userProfile
+    }
+}
+
+const edit_profile_success = (state, action) => {
     const { user_id, username, email, phone_number } = action;
     const { user } = state;
     if(user.username === username){
@@ -81,6 +116,19 @@ const editProfile_page = (state, action) => {
     }
     return {
         ...state
+    }
+}
+
+const edit_profile_request = (state, action) => ({
+    ...state,
+    isLoading: true
+})
+
+const edit_profile_failure = (state, action) => {
+    const { error } = action;
+    return {
+        ...state,
+        error
     }
 }
 

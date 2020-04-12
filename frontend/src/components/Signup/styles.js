@@ -6,20 +6,19 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    heigth: 100%;
+    height: 100%;
     overflow: hidden;
     max-width: 21.875em;
-    
+    margin: 0 auto;
+
     @media (max-width: 30.8em){
         max-width: 100%;
-        margin: 0 auto;
         align-self: center;
     }
 
     h1{
          
         font-weight: 600;
-        line-spacing: 1.3px;
         margin: 10px auto 20px;
     }
     
@@ -36,7 +35,6 @@ const Container = styled.div`
         margin: .625em 5px;
         display: flex;
         flex-wrap: wrap;
-    }
     }
 `;
 
@@ -117,9 +115,6 @@ export const Form = styled.form`
             transform: scale(0.95);
         }
     }
-}
-
-
 `;
 
 export default Container

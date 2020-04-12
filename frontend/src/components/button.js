@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 export const Btn = styled.a`
 	
 	display: inline-block;
-	padding: 8px 15px;
+	padding: 8px 10px;
 	border: 1px solid var(--violet);
 	background: transparent;
 	color: var(--violet);

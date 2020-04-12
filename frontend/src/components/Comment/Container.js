@@ -8,16 +8,6 @@ export class Comment extends Component {
     static propTypes = {
     }
 
-    shoundComponentUpdate(nextProps, nextState){
-    	if(this.props.comment !== nextProps.comment){
-    		return true
-    	}
-    	if(this.props.comment.user !== nextProps.comment.user){
-    		return true
-    	}
-    	
-    	return false
-    }
 
     render() {
         return (

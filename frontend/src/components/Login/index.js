@@ -3,6 +3,15 @@ import Login from './container'
 import { login } from '../../actions/auth'
 
 
+const mapStateToProps = (state, ownProps) => {
+    const { isAuthenticated, isLoading } = state.auth;
+
+    return {
+        isAuthenticated,
+        isLoading,
+    }
+}
+
 const mapDispatchToProps = dispatch => {
     return {
         login: (username, password) => {
@@ -11,4 +20,4 @@ const mapDispatchToProps = dispatch => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Login)
+export default connect(mapStateToProps, mapDispatchToProps)(Login)

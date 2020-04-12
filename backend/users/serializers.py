@@ -12,11 +12,6 @@ from rest_framework import serializers, exceptions
 UserModel = get_user_model()
 
 
-# class LocationsSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = Locations
-#         fields = '__all__'
-#
 
 class UserProfileSerializer(serializers.ModelSerializer):
     full_name = serializers.CharField(source='get_full_name', read_only=True)
@@ -136,7 +131,15 @@ class ListUserSerializer(serializers.ModelSerializer):
 
 
 class SignUpSerializer(RegisterSerializer):
-
+    
+    def get_cleaned_data(self):
+        return {
+            'username': self.validated_data.get('username', ''),
+            'email': self.validated_data.get('email', ''),
+            'password1': self.validated_data.get('password1', ''),
+            'password2': self.validated_data.get('password2', '')
+        }
+        
     @transaction.atomic
     def save(self, request):
         adapter = get_adapter()
@@ -158,34 +161,42 @@ class CustomLoginSerializer(serializers.Serializer):
     def _validate_email(self, email, password):
         user = None
 
+        if not email:
+            msg = _('Must include "email".')
+            raise exceptions.ValidationError(msg)
+        if not password:
+            msg = _('Must include "password".')
+            raise exceptions.ValidationError(msg)
         if email and password:
             user = self.authenticate(email=email, password=password)
-        else:
-            msg = _('Must include "email" and "password".')
-            raise exceptions.ValidationError(msg)
 
         return user
 
     def _validate_username(self, username, password):
         user = None
 
+        if not username:
+            msg = _('Must include "username".')
+            raise exceptions.ValidationError(msg)
+        if not password:
+            msg = _('Must include "password".')
+            raise exceptions.ValidationError(msg)
         if username and password:
             user = self.authenticate(username=username, password=password)
-        else:
-            msg = _('Must include "username" and "password".')
-            raise exceptions.ValidationError(msg)
-
         return user
 
     def _validate_phone_number(self, phone_number, password):
 
         user = None
 
+        if not phone_number:
+            msg = _('Must include "phone number".')
+            raise exceptions.ValidationError(msg)
+        if not password:
+            msg = _('Must include "password".')
+            raise exceptions.ValidationError(msg)
         if phone_number and password:
             user = self.authenticate(phone_number=phone_number, password=password)
-        else:
-            msg = _('Must include "phone number" and "password".')
-            raise exceptions.ValidationError(msg)
 
         return user
 

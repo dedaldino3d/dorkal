@@ -21,15 +21,17 @@ export const set_feed_failure = error => ({
   error
 })
 
-export const doLikePost = post_id => ({
-      type: types.LIKE_POST,
-      post_id
-  })
+export const doReactPost = (post_id, type_react) => ({
+      type: types.REACT_POST,
+      post_id,
+      type_react
+})
   
-export const  doUnlikePost = post_id => ({
-      type: types.UNLIKE_POST,
-      post_id
-  })
+export const  doUnReactPost = (post_id, type_react) => ({
+      type: types.UNREACT_POST,
+      post_id,
+      type_react
+})
 
 export const addComment_Success = (post_id, content) => ({
   type: types.ADD_COMMENT_SUCCESS,
@@ -82,11 +84,7 @@ export const getFeed = () => {
         console.log("You need to be logged in")
         dispatch(authLogout())
       }else{
-        // const data = normalize(response.data, schema.feedSchema);
-        
         dispatch(set_feed_success(response.data));
-
-        console.log("Normalized response without entities - Feed: ", response.data);
       }
     })
     .catch(error => {
@@ -97,15 +95,16 @@ export const getFeed = () => {
 };
 
 
-const reactPost = post_id => {
+export const reactPost = (post_id, type_react) => {
   return (dispatch) => {
-    dispatch(doLikePost(post_id));
-    return postService().reactPost(post_id)
+    dispatch(doReactPost(post_id, type_react));
+
+    return postService().reactPost(post_id, type_react)
       .then( response => {
         if( response.staus === 401)
           dispatch(authLogout());
         else if (!response.ok)
-          dispatch(doUnlikePost(post_id));
+          dispatch(doUnReactPost(post_id, type_react));
       })
       .catch( error => {
         console.log(error);
@@ -114,14 +113,16 @@ const reactPost = post_id => {
 };
 
 
-export const unReactPost = post_id => {
+export const unReactPost = (post_id, type_react) => {
   return dispatch => {
-    return postService().unReactPost(post_id)
+    dispatch(doUnReactPost(post_id, type_react));
+
+    return postService().unReactPost(post_id, type_react)
     .then(response => {
       if(response.status === 401){
-        dispatch(authLogout);
+        dispatch(authLogout());
       }else if(!response.ok){
-        dispatch(doLikePost(post_id));
+        dispatch(doReactPost(post_id, type_react));
       }
     })
     .catch(error => {
@@ -129,6 +130,7 @@ export const unReactPost = post_id => {
     });
   }
 };
+
 
 export const commentOnPost = (post_id, content) => {
   return dispatch => {

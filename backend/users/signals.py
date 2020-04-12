@@ -13,7 +13,7 @@ def user_signed_up(request, user, **kwargs):
     gender, io, uid = None, None, None
 
     if len(user.socialaccount_set.all()) >= 0:
-        socialaccount = user.socialaccount_set.al()[0]
+        socialaccount = user.socialaccount_set.all()[0]
         uid = socialaccount.uid
         gender = socialaccount.extra_data.get('gender', None)
         avatar = socialaccount.get_avatar_url()

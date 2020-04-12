@@ -1,4 +1,4 @@
-"""conf URL Configuration for Asta Project
+"""conf URL Configuration for Dorkal Project
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.0/topics/http/urls/
@@ -15,9 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from backend.users import views
 
-# from rest_framework import routers
-from rest_auth.registration import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,8 +24,9 @@ urlpatterns = [
     path('o/', include(('oauth2_provider.urls', 'oauth2'), namespace='oauth2_provider')),
 
     path('auth/', include('rest_auth.urls')),
+    path('auth/login/facebook/', views.FacebookLogin.as_view(), name="fb_login"),
     path('auth/register/', include('rest_auth.registration.urls')),
-    # you don't sure that you need this at all <Change>
+    # you don't sure that you need account_urls at all <Change>
     path('accounts/', include(('allauth.urls', 'allauth'), namespace='accounts')),
     path('users/', include(('backend.users.urls', 'users'), namespace='users')),
     path('posts/', include(('backend.posts.urls', 'posts'), namespace='posts')),

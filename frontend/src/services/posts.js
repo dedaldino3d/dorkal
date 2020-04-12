@@ -7,14 +7,17 @@ export default () => {
             method: 'GET',
             url:`/posts/`
         }),
-        likePost: post_id => restApi.request({
+        reactPost: (post_id, type_react)=> restApi.request({
             method: 'POST',
-            url: `posts/${post_id}/reactions`,
-            data: post_id
+            url: `posts/${post_id}/react`,
+            data: {
+                post_id,
+                type_react
+            }
         }),
         unReactPost: post_id => restApi.request({
             method: 'DELETE',
-            url: `/posts/${post_id}/unreactions/`,
+            url: `/posts/${post_id}/unreact/`,
             data: post_id
         }),
         commentOnPost: (post_id, content) => restApi.request({

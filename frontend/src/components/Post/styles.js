@@ -4,17 +4,24 @@ import styled from 'styled-components';
 
 // render all info inside post
 export const ContainerPost = styled.div`
-    border-radius: 10px;
+    border-radius: 8px;
     display: flex;
     flex-flow: column nowrap;
     align-items: center;
     flex: 1 1 6em;
     padding: .934em;
-    padding-top: 1em;
-    margin: .265em .3525em;
+    margin: 0 10px 10px;
     max-width: 100%;
-    box-shadow: var(--bs-lg) !important;
     background-color: var(--white);
+    transition: background-size .3s ease-out,box-shadow .3s ease-out,-webkit-box-shadow .3s ease-out;
+    border: 1px solid var(--border);
+
+    :hover {
+        transition: box-shadow 280ms ease-in-out, -webkit-box-shadow 280ms ease-in-out;
+        -webkit-box-shadow: var(--bs-post);
+        box-shadow: var(--bs-post);
+        background-size: auto 103%;
+    }
 
     & > div {
         flex: 1 1 auto;
@@ -44,20 +51,29 @@ export const HeaderPost = styled.div`
         display: flex;
         flex-flow: row nowrap;
 
+        & > a{
+            flex: 1 0 auto;
+        }
         div {
-
             margin-left: 10px;
 
-            & span {
-                font-size: .75em;
-                color: var(--gray-60);
+            & > a {
+                font-size: 16px;
+                font-weight: bold;
+                margin-right: 5px;
             }
-            & > span:first-of-type {
-                display: inline;
-                margin-left: 5px;
+
+            & > svg {
+                margin-left: 3px;
+                margin-right: 5px;
+                color: var(--gray-40);
+                font-size: 6px;
             }
-            & > span {
+
+            & > span:last-child, span:nth-of-type(2) {
                 display: block;
+                font-size: 13px;
+                color: var(--gray-50);
             }
         }
     }
@@ -74,6 +90,11 @@ export const ContentPost = styled.div`
     word-wrap: break-word;
     word-break: break-all;
     width: 100%;
+
+    & > p {
+        max-height: 100px;
+        text-overflow: ellipsis;
+    }
 
     & > div:nth-of-type(2) {
         display: flex;
@@ -125,28 +146,12 @@ export const FooterPost = styled.div`
     align-items: center;
     margin-bottom: 3px;
     padding: 4px 1px;
-    
-    & > span:nth-child(2){
-        :hover {
-            svg {
-                color: var(--red);
-            }
-        }
-    }   
 
-    & > span:nth-child(3){
-        :hover {
-            svg {
-                color: var(--yellow-80);
-            }
-        }
-    }
 `
 
 export const Button = styled.span`
     margin-left: 4px;
     margin-top: 4px;
-    border-radius: 40px !important;
     padding: 1px 3px;
     margin-bottom: -5px;
     background-color: transparent;
@@ -155,13 +160,18 @@ export const Button = styled.span`
     align-items: center;
     align-self: center;
     max-width: 80px;
-    line-height: 1.4;
+    line-height: 1.8;
     transition: background-color .3s ease-in-out 0s;
     color: var(--gray-60);
     cursor: pointer;
 
     & svg {
         margin-left: 3px;
+        font-size: 20px;
+    }
+
+    & > span {
+        font-size: 13px;
     }
 `
 

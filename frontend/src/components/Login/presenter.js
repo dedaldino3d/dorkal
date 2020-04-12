@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 
 
-export const LoginForm = (props) => (
+export const LoginForm = props => (
     <Container>
         <h1>Login</h1>
         <Social>
@@ -27,8 +27,7 @@ export const LoginForm = (props) => (
                 name="username"
                 onChange={props.handleInputChange}
                 value={props.username}
-                
-                required='true'
+                required={true}
                 />
                 <p><a href="#">Forgot your password?</a></p>
                 <input
@@ -38,13 +37,13 @@ export const LoginForm = (props) => (
                 name="password"
                 onChange={props.handleInputChange}
                 value={props.password}
-                required='true'
+                required={true}
                 />
-                <button
-                type="submit">Login</button>
+                {props.isLoading ? <span>Loading...</span>: 
+                <button type="submit">Login</button>}
             </Form>
             <p>Don't have an account? <Link to='/signup' >Sign up</Link></p>
-            <p>Clicking in <i>'Sign up on Dorkal'</i> you agree with our <a href="#">terms and privacy policy</a></p>
+            <p>Clicking in <i>'Sign up on Dorkal'</i> you agree with our <Link to="#">terms and privacy policy</Link></p>
         </div>
     </Container>
 );

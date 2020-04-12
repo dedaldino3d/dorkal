@@ -1,34 +1,26 @@
-from django.conf import settings
-from django.contrib.auth.models import User
-from allauth.account.models import EmailAddress
-from allauth.exceptions import ImmediateHttpResponse
-from django.shortcuts import redirect
-from django.contrib import messages
-from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from allauth.account.adapter import DefaultAccountAdapter
-from django.forms import ValidationError
+from allauth.account.models import EmailAddress
+from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
+from django.conf import settings
 
 
 class AccountAdapter(DefaultAccountAdapter):
     def is_open_for_signup(self, request):
         return getattr(settings, 'ACCOUNT_ALLOW_REGISTRATION', True)
 
-    def save_user(self, request, user, form, commit=False):
-        user = super(AccountAdapter, self).save_user(request=request, user=user, form=form, commit=commit)
-        data = form.cleaned_data
-        username = data.get('username')
-        email = data.get('email')
-        password1 = data.get('password1')
-        password2 = data.get('password2')
-        user.username = username
-        user.email = email
-        if password1 == password2:
-            user.set_password(password1)
-        else:
-            user.set_unusable_password()
-        self.populate_username(request, user)
-        user.save()
-        return user
+    def save_user(self, request, user, form, commit=True):
+        if len(user.socialaccount_set.all()) == 0:
+            # name = request.data.get('name', None)
+            email = request.data.get('email', None)
+            username = request.data.get('username', None)
+            password1 = request.data.get('password1', None)
+            password2 = request.data.get('password2', None)
+            # user.name = name
+            user.email = email
+            user.username = username
+            if password1 == password2:
+                user.set_password(password1)
+            user.save()
 
 
 class SocialAccountAdapter(DefaultSocialAccountAdapter):

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch, Link, useRouteMatch } from 'react-router-dom';
 
 
-import { Container, InfoHome, TheBest, Header, HomeHeader } from './styles';
+import { Container, InfoHome, TheBest, Header, HomeHeader, Footer } from './styles';
 import Trending from '../Trending/presenter'
 import Signup from '../Signup/presenter';
 import Login from '../Login/index';
@@ -40,10 +40,10 @@ export const Home = prop => {
 				</div>
 				<div>
 					<Link to={`${path}/login`}> 
-						<Button outline bd_xs id="modal-login" type='' title='Login' onClick={handleAuthClick}/>
+						<Button bd_xs id="modal-login" type='' title='Login' onClick={handleAuthClick}/>
 					</Link>
 					<Link to={`${path}/signup`}>
-						<Button outline bd_xs id="modal-sign" type='' title='Sign up' onClick={handleAuthClick}/>
+						<Button bd_xs id="modal-sign" type='' title='Sign up' onClick={handleAuthClick}/>
 					</Link>
 				</div>
 			</HomeHeader>
@@ -83,10 +83,10 @@ export const Home = prop => {
 					<Trending/>
 				</div>
 			</TheBest>
-			<div>
+			<Footer>
 				<p>Dorkal was build for you and now we are 46272673 users</p>
 				<p>Don't waste more time and go <strong>sign up</strong>, if you already have an account so, <strong>login</strong></p>
-			</div>
+			</Footer>
 		</Container>
 	)
 }

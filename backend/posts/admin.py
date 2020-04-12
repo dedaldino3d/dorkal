@@ -35,6 +35,7 @@ class ReactionAdmin(admin.ModelAdmin):
     list_display = (
         'user',
         'post',
+        'type_react',
         'created_at',
         'updated_at',
     )

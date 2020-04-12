@@ -9,9 +9,9 @@ export const Button = styled.button`
 	padding: 5px 15px;
 	background-color: var(--violet);
 	border-radius: 40px !important;
-	height: 30px;
 	align-self: center;
 	font-weight: bold;
+	flex: 1 5 auto;
 	cursor: pointer;
 	
 	${props => props.outline && css`

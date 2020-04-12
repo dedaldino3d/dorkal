@@ -10,10 +10,10 @@ const initialState = {
 
 export const postReducer = (state = initialState, action) => {
   switch (action.type) {
-    case types.LIKE_POST:
-      return likePost(state, action);
-    case types.UNLIKE_POST:
-      return unlikePost(state, action);
+    case types.REACT_POST:
+      return reactPost(state, action);
+    case types.UNREACT_POST:
+      return unreactPost(state, action);
     case types.ADD_POST_SUCCESS:
       return addPost(state, action);
     case types.ADD_POST_REQUEST:
@@ -32,43 +32,61 @@ export const postReducer = (state = initialState, action) => {
 
 // Reducer Functions
 
-const likePost = (state, action) => {
-  const { post_id } = action;
-  
-  return {
-    ...state,
-    [post_id]: {
-      ...state[post_id],
-      is_liked: true,
-      like_count: state[post_id].like_count + 1
-    }
-  }
-}
+const reactPost = (state, action) => {
+  const { post_id, type_react } = action;
+  const { feed } = state;
 
-const unlikePost = (state, action) => {
-  const { post_id } = action;
-  
+  const updatedFeed = feed.map( post => {
+    if(post.id === post_id){
+      return {
+        ...post,
+        react_count: post.react_count + 1,
+        is_reacted_type: type_react,
+      }
+    }
+    return post
+  });
+
   return {
     ...state,
-    [post_id]: {
-      ...state[post_id],
-      is_liked: false,
-      like_count: state[post_id].like_count - 1
+    feed: updatedFeed
+  }
+};
+
+
+const unreactPost = (state, action) => {
+  const { post_id, type_react } = action;
+  const { feed } = state;
+
+  const updatedFeed = feed.map( post => {
+    if(post.id === post_id){
+      return {
+        ...post,
+        react_count: post.react_count - 1,
+        is_reacted_type: null,
+      }
     }
+    return post
+  })
+
+  return {
+    ...state,
+    feed: updatedFeed
   }
 }
 
 const addPost = (state, action) => {
   const { post } = action;
-  
+
   return {
     ...state,
     isLoading: false,
-    [post.id]: {
-      ...post
+    feed: {
+      ...state.feed,
+      post
     }
-  }
-}
+  };
+};
 
 const addPost_failure = (state, action) => {
   const { error } = action;
@@ -79,6 +97,7 @@ const addPost_failure = (state, action) => {
   }
 }
 
+
 const addPost_request = (state, action) => {
   return {
     ...state,
@@ -86,11 +105,17 @@ const addPost_request = (state, action) => {
   }
 }
 
+
 const deletePost = (state, action) => {
   const { post_id } = action;
-  
-  return state.filter( id => id !== post_id);
-}
+  const { feed } = state;
+
+  const updatedFeed = feed.filter(post => post.id !== post_id)
+  return {
+    ...state,
+    feed: updatedFeed
+  };
+};
 
 
 

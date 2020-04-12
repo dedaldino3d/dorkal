@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import styled, { css } from 'styled-components';
 import { FaRegEye } from 'react-icons/fa';
 
-const View = styled.span`
+export const View = styled.span`
 
 	padding: 5px;
 	font-size: 11px;

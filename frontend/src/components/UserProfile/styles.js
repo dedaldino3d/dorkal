@@ -5,14 +5,8 @@ export const Container = styled.div`
     display: flex;
     flex-flow: column nowrap;
     justify-content: space-between;
-    width: 40%;
-    margin: auto;
-    padding-top: 5em;
+    width: 100%;
 
-    @media (max-width: 31.25em){
-        width: 100%;
-        margin: .1875em auto;
-    }
 `;
 
 // Component InfoHeader, header for profile
@@ -47,7 +41,7 @@ export const InfoSeg = styled.div`
     max-width: 100%;
     padding: 10px;
     display: flex;
-    background-color: var(--shadow-0);
+    background-color: #fafafa;
     border-radius: 5px;
     flex-flow: row wrap;
     justify-content: flex-start;
@@ -63,7 +57,6 @@ export const InfoSeg = styled.div`
         
     }
 
-    border-bottom: 20px solid var(--shadow-0);
 `;
 
 export const ButtonsProfile = styled.ul`
@@ -74,17 +67,17 @@ export const ButtonsProfile = styled.ul`
     border-radius: 5px;
     margin: 0 5px 10px;
     overflow:hidden;
-    flex: 1 2 auto;
+    flex: 1 1 auto;
 `;
 
 export const Bprofile = styled.li`
-    flex: 2 1 33.3%;
+    flex: 1 1 33.3%;
     
     a {
         display: flex;
         justify-content: center;
         align-items: center;
-        padding: 0.6em 1.3em;
+        padding: 0.6em ;
         white-space: nowrap;
 
         font-weight: bold;
@@ -105,7 +98,7 @@ export const Bprofile = styled.li`
 
         border: 1px solid var(--violet);
         cursor: pointer;
-        box-shadow: var(--bs-inset)
+        box-shadow: var(--bs-inset);
     
         & svg{
             margin-right: 3px;

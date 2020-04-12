@@ -9,26 +9,16 @@ const initialState = {
 
 const authReducer = (state= initialState, action) => {
     switch(action.type){
+        case types.USER_LOADING:
         case types.AUTH_REQUEST:
             return authRequest(state, action);
+        case types.USER_LOADED:
         case types.AUTH_SUCCESS:
             return authSuccess(state, action);
         case types.AUTH_FAILURE:
             return authFailure(state, action);
         case types.AUTH_LOGOUT:
             return authLogout(state, action);
-        case types.USER_LOADING:
-            return {
-                ...state,
-                isLoading: true,
-            };
-        case types.USER_LOADED:
-            return {
-                ...state,
-                isAuthenticated: true,
-                isLoading: false,
-                user: action.user
-            };
         default:
             return state;
     }
@@ -42,6 +32,7 @@ const authRequest = (state, action) => {
         isLoading: true,
     };
 }
+
 const authSuccess = (state, action) => {
     return {
         ...state,

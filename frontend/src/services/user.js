@@ -4,24 +4,6 @@ import restApi from '../utils/createRestApi';
 export default () => {
 
     return {
-        authLogin: (username, password) => restApi.request({
-            method: 'POST',
-            url: '/auth/login/',
-            data: {
-                login_field: username,
-                password
-            }
-        }),
-        authSignup: (username, email, password1, password2) => restApi.request({
-            method: 'POST',
-            url: '/auth/register/',
-            data: {
-                username,
-                email,
-                password1,
-                password2
-            }
-        }),
         loadUser: () => restApi.request({
             method: 'GET',
             url: '/auth/user/',

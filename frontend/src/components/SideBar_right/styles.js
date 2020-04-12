@@ -8,10 +8,9 @@ export const Container = styled.div`
 	box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
 	border-radius: 40px !important;
 	border: none;
-	padding: 1em;
+	padding: 5px;
 	height: 400px;
-	margin: 5px;
-	width: 30%;
+	width: 100%;
 `;
 
 export default Container

@@ -1,18 +1,14 @@
-from backend.users.permissions import IsOwnerOrReadOnly
-from backend.users.serializers import ListUserSerializer, SignUpSerializer, UserProfileSerializer, \
-    UserDetailsSerializer
-from django.shortcuts import render
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope
-from rest_auth.registration.views import RegisterView
-
+from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
+from rest_auth.registration.views import SocialLoginView
 from rest_framework import status
 from rest_framework.generics import get_object_or_404
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.viewsets import ViewSet
-from backend.users import models, serializers
-from backend.notifications.views import Notifications as notifications_views
+
+from backend.users import models
+from backend.users.permissions import IsOwnerOrReadOnly
+from backend.users.serializers import ListUserSerializer, UserDetailsSerializer
 
 
 class ExploreUsers(APIView):
@@ -150,7 +146,7 @@ class UserProfile(APIView):
     """
     UserProfile 
     """
-    permission_classes = (IsAuthenticated, IsOwnerOrReadOnly,)
+    permission_classes = (IsAuthenticated,)
     serializer_class = UserDetailsSerializer
 
     # Get a user(user logged in)
@@ -294,3 +290,21 @@ class Search(APIView):
             return Response(data=serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class FacebookLogin(SocialLoginView):
+    adapter_class = FacebookOAuth2Adapter
+
+
+class RegisterPush(APIView):
+
+    def post(self, request):
+        user = request.user
+        token = request.data.get('token', None)
+        if token is not None:
+            user.push_token = token
+            user.save()
+            return Response(status=status.HTTP_200_OK)
+        else:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+

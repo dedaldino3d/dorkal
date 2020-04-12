@@ -1,21 +1,19 @@
 import { connect } from "react-redux";
-import * as postActions from '../../actions/posts';
+import { bindActionCreators } from 'redux'
+import { getFeed } from '../../actions/posts';
 import Container from "./container";
 
 const mapStateToProps = (state) => {
-  const { feed } = state.feed;
+  const { feed, isLoading } = state.feed;
 
   return {
     feed,
+    isLoading,
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    getFeed: () => {
-      dispatch(postActions.getFeed());
-    }
-  };
-};
+const mapDispatchToProps = {
+  getFeed
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(Container);

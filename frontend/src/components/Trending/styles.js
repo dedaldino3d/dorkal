@@ -28,13 +28,13 @@ export const Li = styled.li`
     display: flex;
     flex-direction: column;
     text-align: center;
-    border: none;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important;
-    border-radius: 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
     background-color: #fff;
     font-size: 14px;
     margin: 4px 2px;
-
+    overflow: hidden;
+    
     img {
         align-self: center;
     }
@@ -46,7 +46,6 @@ export const ImgTrending = styled.img`
     left: 0;
     width: 100%;
     height: 100%;
-    border-radius: inherit;
     opacity: .2;
 `;
 

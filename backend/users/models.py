@@ -24,7 +24,6 @@ from django.utils.translation import ugettext_lazy as _
 
 # Here has model of users, all users
 
-
 # The main model for users,
 # this model will be a main model for all users
 
@@ -41,21 +40,21 @@ class CustomUserManager(BaseUserManager):
 class User(AbstractBaseUser, PermissionsMixin, TimeStampedModel):
 
     VALIDATOR = [validators.RegexValidator(re.compile('^[\w.@]+$'),
-                                           _('Name can only contain letters and character @'), 'invalid')]
-
-    # VALIDATOR = UnicodeUsernameValidator()
+                                           _('Username can only contain letters and numbers '), 'invalid')]
 
     user_id = models.AutoField(primary_key=True)
     username = models.CharField(unique=True, verbose_name=_('user'),
-                                max_length=250, blank=False, null=False, validators=VALIDATOR,
-                                error_messages={
-                                    'unique': _("A user with that username already exists."),
-                                },
-                                )
+        max_length=250, blank=False, null=False, validators=VALIDATOR,
+        error_messages={
+        'unique': _("A user with that username already exists."),
+        },
+        )
+
     email = models.EmailField(unique=True, verbose_name=_('email'),
                               max_length=250, blank=False, null=False)
     phone_number = models.CharField(unique=True, max_length=16, blank=False, null=True)
-    
+    push_token = models.TextField(default='')
+
     is_staff = models.BooleanField(
         _('staff status'),
         default=False,
@@ -164,7 +163,7 @@ class UserProfile(TimeStampedModel):
     )
 
     VALIDATOR = [validators.RegexValidator(re.compile('^[\w]+$'),
-                                           _('Only can has letters'), 'invalid')]
+                                           _('Invalid name, can only contain letters.'), 'invalid')]
 
     id = models.AutoField(primary_key=True)
     user = models.OneToOneField(UserModel, verbose_name=_('user'), blank=False, null=False,
@@ -207,12 +206,10 @@ def create_user_profile(sender, instance, created, **kwargs):
     if created:
         UserProfile.objects.create(user=instance)
 
-
 #
 # @receiver(post_save, sender=User)
 # def save_user_profile(sender, instance, **kwargs):
 #     instance.profile.save()
-
 
 @receiver(pre_delete, sender=User)
 def delete_user_profile(sender, instance=None, **kwargs):

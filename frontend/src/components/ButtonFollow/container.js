@@ -27,13 +27,6 @@ export const ButtonFollow = props => {
     )
 }
 
-ButtonFollow.defaultProps = {
-    user: PropTypes.shape({
-        user_id: 1,
-        following: false
-    })
-}
-
 ButtonFollow.propTypes = {
     user: PropTypes.shape({
         following: PropTypes.bool.isRequired,

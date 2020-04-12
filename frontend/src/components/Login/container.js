@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types'
 import LoginForm from './presenter'
 
@@ -13,7 +14,9 @@ export class Login extends Component{
     
 
     static propTypes = {
-        login: PropTypes.func.isRequired
+        login: PropTypes.func.isRequired,
+        isAuthenticated: PropTypes.bool,
+        isLoading: PropTypes.bool.isRequired,
     }
 
     _handleInputChange = event => {
@@ -23,28 +26,30 @@ export class Login extends Component{
         });
     };
 
+
     _handleSubmit = event => {
         const { login } = this.props;
         const { username, password } = this.state;
-        const data = { 
-            username, 
-            password
-        };
-        event.preventDefault();
         login(username, password);
+        event.preventDefault();
+
     };
 
     render(){
         const { username, password } = this.state;
 
-        return(
+        if(this.props.isAuthenticated){
+            return (<Redirect to='/feed' />)
+        }else{
+            return(
             <LoginForm
                 handleInputChange={this._handleInputChange}
                 handleSubmit={this._handleSubmit}
+                isLoading={this.props.isLoading}
                 username={username}
                 password={password}
-            />
-        );
+            />)
+        }
     }
 }
 

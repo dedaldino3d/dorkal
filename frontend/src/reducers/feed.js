@@ -15,10 +15,10 @@ export const feedReducer = (state = initialState, action) => {
       return setFeed_request(state, action);
     case types.SET_FEED_FAILURE:
       return setFeed_failure(state, action);
-    case types.LIKE_POST:
-      return like_Post(state, action);
-    case types.UNLIKE_POST:
-      return unlike_Post(state, action);
+    case types.REACT_POST:
+      return reactPost(state, action);
+    case types.UNREACT_POST:
+      return unreactPost(state, action);
     case types.ADD_POST_SUCCESS:
       return addPost_success(state, action);
     case types.DELETE_POST_SUCCESS:
@@ -35,6 +35,8 @@ export const feedReducer = (state = initialState, action) => {
       return state;
   }
 }
+
+// Reducer Functions
 
 
 const setFeed_request = (state, action) => {
@@ -66,44 +68,48 @@ const setFeed_failure = (state, action) => {
   }
 }
 
-const like_Post = (state, action) => {
-  const { post_id } = action;
+const reactPost = (state, action) => {
+  const { post_id, type_react } = action;
   const { feed } = state;
-  const updatedFeed = feed.map(post => {
-    if (post.id === post_id) {
-      return { 
-        ...post, 
-        is_liked: true, 
-        like_count: post.like_count + 1 
-      };
-    }
-    return post;
-  });
-  return { 
-    ...state, 
-    feed: updatedFeed 
-  };
-}
 
-const unlike_Post = (state, action) => {
-  const { post_id } = action;
-  const { feed } = state;
-  const updatedFeed = feed.map(post => {
-    if (post.id === post_id) {
-      return { 
-        ...post, 
-        is_liked: false, 
-        like_count: 
-        post.like_count - 1 
-      };
+  const updatedFeed = feed.map( post => {
+    if(post.id === post_id){
+      return {
+        ...post,
+        react_count: post.react_count + 1,
+        is_reacted_type: type_react,
+      }
     }
-    return post;
+    return post
   });
-  return { 
-    ...state, 
+
+  return {
+    ...state,
+    feed: updatedFeed
+  }
+};
+
+
+const unreactPost = (state, action) => {
+  const { post_id, type_react } = action;
+  const { feed } = state;
+
+  const updatedFeed = feed.map( post => {
+    if(post.id === post_id){
+      return {
+        ...post,
+        react_count: post.react_count - 1,
+        is_reacted_type: null,
+      }
+    }
+    return post
+  });
+
+  return {
+    ...state,
     feed: updatedFeed
   };
-}
+};
 
 const addComment_success = (state, action) => {
   const { post_id, comment } = action;
@@ -124,7 +130,7 @@ const addComment_success = (state, action) => {
     ...state, 
     feed: updatedFeed 
   };
-}
+};
 
 
 const deleteComment_success = (state, action) => {

@@ -13,14 +13,14 @@ urlpatterns = [
         name='post_detail'
     ),
     url(
-        regex=r'^(?P<post_id>[0-9]+)/reactions/$',
+        regex=r'^(?P<post_id>[0-9]+)/react/$',
         view=views.ReactPost.as_view(),
         name='reaction_post'
     ),
     url(
-        regex=r'^(?P<post_id>[0-9]+)/unreactions/$',
+        regex=r'^(?P<post_id>[0-9]+)/unreact/$',
         view=views.UnReactPost.as_view(),
-        name='reaction_post'
+        name='unreaction_post'
     ),
     url(
         regex=r'^(?P<post_id>[0-9]+)/comments/$',

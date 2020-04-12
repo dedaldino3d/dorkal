@@ -2,7 +2,7 @@ import * as types from './actionTypes';
 import { userService } from '../services';
 import { normalize } from 'normalizr';
 import * as schema from './schema';
-import { authLogout } from './auth.js';
+import { authLogout, authFailure } from './auth.js';
 
 // Actions creators for users (syncronous)
 
@@ -44,12 +44,42 @@ export const setUnblockUser = user_id => {
     }
 }
 
+export const setUserProfile_request = () => {
+    return {
+        type: types.USER_PROFILE_REQUEST,
+    }
+}
+
 export const setUserProfile = userProfile => {
     return {
         type: types.USER_PROFILE_PAGE,
         userProfile
     }
 }
+
+export const edit_profile_request = () => ({
+    type: types.EDIT_PROFILE_REQUEST,
+})
+
+export const edit_profile_success = userProfile => ({
+    type: types.EDIT_PROFILE_SUCCESS,
+    userProfile
+})
+
+export const edit_profile_failure = error => ({
+    type: types.EDIT_PROFILE_FAILURE,
+    error
+})
+
+export const userLoading = () => ({
+  type: types.USER_LOADING
+})
+
+export const userLoaded = user => ({
+  type: types.USER_LOADED,
+  user
+})
+
 
 // Actions creators (asyncronous)
 
@@ -62,8 +92,30 @@ const passwordChange = () => {
 
 }
 
+
+export const loadUser = () => {
+    return dispatch => {
+      dispatch(userLoading());
+  
+       return userService().loadUser()
+        .then(response => {
+            if(response.status === 401){
+                dispatch(authLogout());
+            }else{
+                const user = response.data;
+                dispatch(userLoaded(user));
+            }
+        })
+        .catch(error => {
+            dispatch(authFailure(error));
+        })
+    }
+}
+
+
 export const profile = username => {
     return dispatch => {
+        dispatch(setUserProfile_request());
 
         return userService().profile(username)
             .then(response => {
@@ -80,13 +132,18 @@ export const profile = username => {
 
 export const editProfile = data => {
     return dispatch => {
+        dispatch(edit_profile_request);
 
         return userService().editProfile(data)
             .then(response => {
-
+                if(response.status === 401){
+                    dispatch(authLogout());
+                }else{
+                    dispatch(edit_profile_success);
+                }
             })
             .catch(error => {
-
+                dispatch(edit_profile_failure);
             })
     }
 }

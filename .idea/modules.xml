@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/../asta/.idea/asta.iml" filepath="$PROJECT_DIR$/../asta/.idea/asta.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/dorkal_sys.iml" filepath="$PROJECT_DIR$/.idea/dorkal_sys.iml" />
     </modules>
   </component>
 </project>

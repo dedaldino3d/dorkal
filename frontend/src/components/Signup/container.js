@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types'
-
+import { Redirect } from 'react-router-dom'
 import SignupForm from './presenter'
 
 
@@ -15,7 +15,9 @@ class Signup extends Component{
     };
 
     static propTypes = {
-        signup: PropTypes.func.isRequired
+        signup: PropTypes.func.isRequired,
+        isAuthenticated: PropTypes.bool,
+        isLoading: PropTypes.bool.isRequired,
     };
 
     _handleInputChange = event => {
@@ -39,6 +41,9 @@ class Signup extends Component{
     };
 
     render(){
+        if(this.props.isAuthenticated){
+            return <Redirect to='/feed' />
+        }
         const { username, email, password1, password2 } = this.state;
 
         return(
@@ -47,6 +52,7 @@ class Signup extends Component{
                 email={email}
                 password1={password1}
                 password2={password2}
+                isLoading={this.props.isLoading}
                 handleInputChange={this._handleInputChange}
                 handleSubmit={this._handleSubmit}
             />

@@ -8,7 +8,7 @@ export const Container = styled.main`
 	flex-flow: column wrap;
 	justify-content: center;
 	max-width: 100%;
-	padding: 5em 0 10px;
+	padding: 5em 0 0;
 	background-color: var(--white);
 	
 
@@ -16,25 +16,6 @@ export const Container = styled.main`
 		display: flex;
 		flex-flow: row wrap;
 		justify-content: space-between;
-	}
-
-	& > div:last-child {
-		background-color: var(--gray-80);
-		padding: 10px;
-		width: 100%;
-		min-height: 60px;
-		display: flex;
-		justify-content: space-between;
-		overflow: visible;
-		margin-bottom: 20px;
-
-		& > p {
-			display: block;
-			margin-right: 1em;
-			font-size: 16px;
-
-		}
-
 	}
 
 	@media (max-width: 46.8em){
@@ -120,8 +101,7 @@ export const HomeHeader = styled.div`
     padding: .43em .8em;
     justify-content: space-between;
     align-items: center;
-    background-color: var(--violet);
-    color: var(--white);
+    background-color: var(--white);
     width: 100%;
     min-height: 4em;
     max-height: 5em;
@@ -130,7 +110,7 @@ export const HomeHeader = styled.div`
     top: 0;
     left: 0;
     border-bottom: 1px solid var(--gray-10);
-    box-shadow: 0 2px 15px 0 rgba(200,200,200, .7), 0 2px 10px 0 rgba(200,200,200, .7);
+    box-shadow: var(--bs-gl);
     overflow: hidden;
 
     & > div {
@@ -214,6 +194,26 @@ export const TheBest = styled.div`
 `;
 
 
+export const Footer = styled.footer`
+
+	background-color: #24292e;
+	padding: 30px;
+	width: 100%;
+	min-height: 5em;
+	display: flex;
+	justify-content: space-between;
+	overflow: visible;
+	border-top: 1px solid var(--border);
+	color: var(--white);
+	
+	& > p {
+		display: block;
+		margin-right: 1em;
+		font-size: 16px;
+
+	}
+
+`;
 
 
 export default Container

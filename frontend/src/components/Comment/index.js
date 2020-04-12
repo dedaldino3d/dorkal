@@ -5,3 +5,4 @@ import { actionCreator } from '../actionPath'
 
 
 
+export default connect()(Comment)

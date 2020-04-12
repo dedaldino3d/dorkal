@@ -1,14 +1,14 @@
 import thunk from 'redux-thunk';
-import { createStore, applyMiddleware, compose } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import createHistory from 'history/createBrowserHistory';
 import { createlogger } from 'redux-logger';
 import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
 import { routerMiddleware } from 'react-router-redux';
 
 import reducer from '../reducers/reducer';
-import { profile } from '../actions/user';
-import { login, authLogout } from '../actions/auth';
 
+
+import { profile } from '../actions/user';
 
 import { getFeed, commentOnPost, deletePost, likePost } from '../actions/posts';
 import { localStorageMiddleware } from '../middlewares';

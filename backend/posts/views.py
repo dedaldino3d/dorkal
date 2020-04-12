@@ -5,7 +5,6 @@ from rest_framework.permissions import IsAuthenticated
 from . import models, serializers
 from backend.users import models as user_models
 from backend.users import serializers as user_serializers
-from backend.notifications import views as notification_views
 from backend.users.permissions import IsOwnerOrReadOnly
 
 
@@ -18,24 +17,38 @@ class Posts(APIView):
 
         user = request.user
         following_users = user.get_following(user)
+        friend_users = user.get_friends(user)
+
+        # if friend_users and following_users > 1:
+        #     pass
 
         post_list = []
 
+        if friend_users:
+            # Friends posts
+            for friend_user in friend_users:
+                user_friend_posts = friend_user.posts.all()[:2]
+                for post in user_friend_posts:
+                    post_list.append(post)
+
         if following_users:
+            # Following posts
             for following_user in following_users:
-                user_posts = following_user.posts.all() # [:2]
-                for post in user_posts:
+                user_following_posts = following_user.posts.all()[:2]
+                for post in user_following_posts:
                     post_list.append(post)
         else:
             return Response(status=status.HTTP_404_NOT_FOUND)
-        # my_posts= user.posts.all() #[:2]
-        my_posts = models.Post.objects.all()
+
+        my_posts = user.posts.all()[:2]
+
         for post in my_posts:
             post_list.append(post)
         sorted_list = sorted(
             post_list, key=lambda post: post.created_at, reverse=True)
         serializer = serializers.PostSerializer(
             sorted_list, many=True, context={'request': request})
+
 
         return Response(serializer.data)
 
@@ -69,6 +82,7 @@ class ReactPost(APIView):
     def post(self, request, post_id, format=None):
 
         user = request.user
+        type_react = request.data['type_react']
 
         try:
             found_post = models.Post.objects.get(id=post_id)
@@ -78,7 +92,8 @@ class ReactPost(APIView):
         try:
             preexisiting_react = models.Reaction.objects.get(
                 user=user,
-                post=found_post
+                post=found_post,
+                type_react=type_react
             )
             return Response(status=status.HTTP_304_NOT_MODIFIED)
 
@@ -86,13 +101,14 @@ class ReactPost(APIView):
 
             new_react = models.Reaction.objects.create(
                 user=user,
-                post=found_post
+                post=found_post,
+                type_react=type_react
             )
 
             new_react.save()
 
-            notification_views.create_notification(
-                user, found_post.user, 'like', found_post)
+            # notification_views.create_notification(
+            #     user, found_post.user, 'like', found_post)
 
             return Response(status=status.HTTP_201_CREATED)
 
@@ -102,19 +118,26 @@ class UnReactPost(APIView):
     def delete(self, request, post_id, format=None):
 
         user = request.user
+        type_react = ['joke', 'love']
 
         try:
             preexisiting_react = models.Reaction.objects.get(
-                user=user,
-                post__id=post_id
+                user__pk=user.user_id, post__pk=post_id, type_react=type_react[0]
             )
             preexisiting_react.delete()
-
             return Response(status=status.HTTP_204_NO_CONTENT)
-
         except models.Reaction.DoesNotExist:
+            pass
+        try:
+            preexisiting_react =models.Reaction.objects.get(
+                user__pk=user.user_id, post__pk=post_id, type_react=type_react[1]
+            )
+            preexisiting_react.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except models.Reaction.DoesNotExist:
+            pass
 
-            return Response(status=status.HTTP_304_NOT_MODIFIED)
+        return Response(status=status.HTTP_304_NOT_MODIFIED)
 
 
 class CommentOnPost(APIView):
@@ -201,7 +224,6 @@ class ModerateComments(APIView):
 
 
 class PostDetail(APIView):
-
     permission_classes = (IsOwnerOrReadOnly, IsAuthenticated,)
 
     def find_own_post(self, post_id):
@@ -229,15 +251,15 @@ class PostDetail(APIView):
 
         if post is None:
             return Response(status=status.HTTP_400_BAD_REQUEST)
-        
+
         self.check_object_permissions(request, post)
-        
+
         serializer = serializers.InputPostSerializer(
             post, data=request.data, partial=True)
 
         if serializer.is_valid():
 
-            serializer.save(user=user)
+            serializer.save(user=request.user)
 
             return Response(data=serializer.data, status=status.HTTP_204_NO_CONTENT)
 

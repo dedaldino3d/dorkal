@@ -11,8 +11,8 @@ export const CommentBox = props => {
         <Container>
             <Avatar
             tam={32}
-            source={/*props.user.profile.profile_image || */require('../../images/noPhoto.jpg')}
-            alt={/*props.user.username*/'dedaldino'}
+            source={props.user.profile.profile_image || require('../../images/noPhoto.jpg')}
+            alt={props.user.username}
             />
             <Form>
                 <input
@@ -27,11 +27,6 @@ export const CommentBox = props => {
     )
 }
 
-CommentBox.defaultProps = {
-    user: PropTypes.shape({
-        username: "dedaldino",
-    })
-}
 
 CommentBox.propTypes = {
     user: PropTypes.shape({

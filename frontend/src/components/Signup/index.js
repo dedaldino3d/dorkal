@@ -1,6 +1,16 @@
 import { connect } from 'react-redux'
-import { authSignup} from '../../actions/user'
+import { signup} from '../../actions/auth'
 import Signup from './container'
+
+
+const mapStateToProps = (state, ownProps) => {
+    const { isAuthenticated, isLoading } = state.auth;
+
+    return {
+        isAuthenticated,
+        isLoading,
+    }
+}
 
 
 const mapDispatchToProps = dispatch => {
@@ -12,4 +22,4 @@ const mapDispatchToProps = dispatch => {
 };
 
 
-export default connect(null, mapDispatchToProps)(Signup)
+export default connect(mapStateToProps, mapDispatchToProps)(Signup)
