@@ -36,7 +36,7 @@ mccabe==0.6.1
 numpy==1.17.4
 oauthlib==3.1.0
 pilkit==2.0
-Pillow==6.2.1
+Pillow==8.1.1
 pipenv==2018.11.26
 psycopg2==2.8.4
 pyapns==0.4.1
